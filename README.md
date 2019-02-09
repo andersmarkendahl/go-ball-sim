@@ -1,2 +1,2 @@
-# kartook
-Adventure Game
+# ball-sim-go
+Ball simulation
