@@ -6,16 +6,22 @@ import (
 )
 
 type ball struct {
-	posX, posY float64
-	velX, velY float64
-	radius     float64
+	X, Y   float64
+	vX, vY float64
+	R      float64
 }
 
-func printStatus(balls ...ball) {
+func printStatus(balls ...*ball) {
 	fstring := "Ball %d: pos(%2.2f, %2.2f) vel(%2.2f, %2.2f)\n"
 	for i, b := range balls {
-		fmt.Printf(fstring, i, b.posX, b.posY, b.velX, b.velY)
+		fmt.Printf(fstring, i, b.X, b.Y, b.vX, b.vY)
 	}
+}
+
+func createBall(y, vx float64) *ball {
+	b := ball{Y: y, vX: vx}
+	b.R = 2
+	return &b
 }
 
 func main() {
@@ -30,14 +36,10 @@ func main() {
 	}
 
 	fmt.Printf("You have entered %d balls \n", nballs)
-	balls := make([]ball, nballs)
+	balls := make([]*ball, nballs)
 
 	for i := range balls {
-		balls[i].posX = 0
-		balls[i].posY = float64(i) + 1
-		balls[i].velX = 2
-		balls[i].velY = 0
-		balls[i].radius = 1
+		balls[i] = createBall(float64(i)+1, 2)
 	}
 	printStatus(balls...)
 
