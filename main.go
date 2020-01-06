@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"os"
 )
 
 type ball struct {
@@ -22,7 +23,12 @@ func main() {
 	var nballs int
 
 	fmt.Println("Welcome to ball simulator! Please insert an integer")
-	fmt.Scanf("%d", &nballs)
+	_, err := fmt.Scanf("%d", &nballs)
+	if err != nil {
+		fmt.Println("ERROR:", err)
+		os.Exit(1)
+	}
+
 	fmt.Printf("You have entered %d balls \n", nballs)
 	balls := make([]ball, nballs)
 
