@@ -5,6 +5,9 @@ import (
 	"os"
 )
 
+var T int = 10
+var DT, G float64 = 1.0 , -9.80665
+
 type ball struct {
 	X, Y   float64
 	vX, vY float64
@@ -22,6 +25,27 @@ func createBall(y, vx float64) *ball {
 	b := ball{Y: y, vX: vx}
 	b.R = 2
 	return &b
+}
+
+func (b *ball) updatePosition() error {
+	b.X = b.X + b.vX/DT
+	b.Y = b.Y + b.vY/DT
+	return nil
+}
+
+func (b *ball) updateVelocity() error {
+	b.vY = b.vY + G/DT
+	return nil
+}
+
+type object interface {
+	updatePosition() error
+	updateVelocity() error
+}
+
+func objectTimestep (o object) {
+	o.updatePosition()
+	o.updateVelocity()
 }
 
 func main() {
@@ -42,5 +66,13 @@ func main() {
 		balls[i] = createBall(float64(i)+1, 2)
 	}
 	printStatus(balls...)
+
+    for t := 0; t <= T; t++ {
+		for i := range balls {
+			objectTimestep(balls[i])
+		}
+		fmt.Println(">>> TIME: ", t)
+		printStatus(balls...)
+    }
 
 }
