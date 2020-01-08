@@ -6,7 +6,7 @@ import (
 )
 
 var T int = 10
-var DT, G float64 = 1.0 , -9.80665
+var DT, G float64 = 10.0 , -9.80665
 
 type ball struct {
 	X, Y   float64
@@ -63,7 +63,7 @@ func main() {
 	balls := make([]*ball, nballs)
 
 	for i := range balls {
-		balls[i] = createBall(float64(i)+1, 2)
+		balls[i] = createBall(float64(i) * 5, 2)
 	}
 	printStatus(balls...)
 
