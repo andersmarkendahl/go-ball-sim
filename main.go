@@ -3,15 +3,15 @@ package main
 import (
 	"fmt"
 	"os"
+	"log"
+	"image/png"
+	"github.com/hajimehoshi/ebiten"
 )
 
-var T int = 10
-var DT, G float64 = 10.0 , -9.80665
 
 type ball struct {
 	X, Y   float64
 	vX, vY float64
-	R      float64
 }
 
 func printStatus(balls ...*ball) {
@@ -23,7 +23,6 @@ func printStatus(balls ...*ball) {
 
 func createBall(y, vx float64) *ball {
 	b := ball{Y: y, vX: vx}
-	b.R = 2
 	return &b
 }
 
@@ -48,6 +47,47 @@ func objectTimestep (o object) {
 	o.updateVelocity()
 }
 
+var (
+	ballSprite	*ebiten.Image
+	balls		[]*ball
+	DT, G float64 = 10.0 , 9.80665
+)
+
+func init() {
+
+	// Preload images
+	file, err := os.Open("./images/basketball.png")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer file.Close()
+	img, err := png.Decode(file)
+	if err != nil {
+		log.Fatal(os.Stderr, "%s: %v\n", "./images/basketball.png", err)
+	}
+
+    ballSprite, _ = ebiten.NewImageFromImage(img, ebiten.FilterDefault)
+
+}
+
+func update(screen *ebiten.Image) error {
+
+	for i := range balls {
+		objectTimestep(balls[i])
+	}
+
+	if ebiten.IsDrawingSkipped() {
+		return nil
+	}
+
+	for i := range balls {
+		op := &ebiten.DrawImageOptions{}
+		op.GeoM.Scale(0.05, 0.05)
+		op.GeoM.Translate(balls[i].X, balls[i].Y)
+	    screen.DrawImage(ballSprite, op)
+	}
+	return nil
+}
 func main() {
 
 	var nballs int
@@ -55,24 +95,15 @@ func main() {
 	fmt.Println("Welcome to ball simulator! Please insert an integer")
 	_, err := fmt.Scanf("%d", &nballs)
 	if err != nil {
-		fmt.Println("ERROR:", err)
-		os.Exit(1)
+		log.Fatal(err)
 	}
-
-	fmt.Printf("You have entered %d balls \n", nballs)
-	balls := make([]*ball, nballs)
+	balls = make([]*ball, nballs)
 
 	for i := range balls {
-		balls[i] = createBall(float64(i) * 5, 2)
+		balls[i] = createBall(float64(i) * 50, 20)
 	}
-	printStatus(balls...)
 
-    for t := 0; t <= T; t++ {
-		for i := range balls {
-			objectTimestep(balls[i])
-		}
-		fmt.Println(">>> TIME: ", t)
-		printStatus(balls...)
-    }
-
+	if err := ebiten.Run(update, 1600, 900, 1, "Ball Sim Go"); err != nil {
+		log.Fatal(err)
+	}
 }
