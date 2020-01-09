@@ -3,54 +3,26 @@ package main
 import (
 	"fmt"
 	"github.com/hajimehoshi/ebiten"
+	b "github.com/Aoana/ball-sim-go/internal/pkg/balls"
 	"image/png"
 	"log"
 	"os"
 )
 
-type ball struct {
-	X, Y   float64
-	vX, vY float64
-}
-
-// Debug function
-func printStatus(balls ...*ball) {
-	fstring := "Ball %d: pos(%2.2f, %2.2f) vel(%2.2f, %2.2f)\n"
-	for i, b := range balls {
-		fmt.Printf(fstring, i, b.X, b.Y, b.vX, b.vY)
-	}
-}
-
-func createBall(y, vx float64) *ball {
-	b := ball{Y: y, vX: vx}
-	return &b
-}
-
-func (b *ball) updatePosition() error {
-	b.X = b.X + b.vX/DT
-	b.Y = b.Y + b.vY/DT
-	return nil
-}
-
-func (b *ball) updateVelocity() error {
-	b.vY = b.vY + G/DT
-	return nil
-}
-
 type object interface {
-	updatePosition() error
-	updateVelocity() error
+	UpdatePosition(float64) error
+	UpdateVelocity(float64, float64) error
 }
 
 func objectTimestep(o object) {
-	o.updatePosition()
-	o.updateVelocity()
+	o.UpdatePosition(DT)
+	o.UpdateVelocity(G, DT)
 }
 
 // Global variables
 var (
 	ballSprite *ebiten.Image
-	ballList     []*ball
+	ballList     []*b.Ball
 	DT, G      float64 = 10.0, 9.80665
 )
 
@@ -102,11 +74,11 @@ func main() {
 		log.Fatal(err)
 	}
 	// Create a slice of number of balls
-	ballList = make([]*ball, nballs)
+	ballList = make([]*b.Ball, nballs)
 
 	// Call constructor to set initial values
 	for i := range ballList {
-		ballList[i] = createBall(float64(i)*50, 20)
+		ballList[i] = b.New(0, float64(i)*50, 20, 0)
 	}
 
 	// Run simulation loop
