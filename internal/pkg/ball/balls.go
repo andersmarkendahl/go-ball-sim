@@ -1,4 +1,4 @@
-package ball
+package balls
 
 type ball struct {
 	X, Y   float64

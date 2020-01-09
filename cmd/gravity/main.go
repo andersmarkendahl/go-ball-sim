@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/hajimehoshi/ebiten"
-	"github.com/Aoana/ball-sim-go/internal/pkg/ball"
+	"github.com/Aoana/ball-sim-go/internal/pkg/balls"
 	"image/png"
 	"log"
 	"os"
@@ -46,7 +46,7 @@ func objectTimestep(o object) {
 // Global variables
 var (
 	ballSprite *ebiten.Image
-	balls      []*ball
+	ballList     []*ball
 	DT, G      float64 = 10.0, 9.80665
 )
 
@@ -71,7 +71,7 @@ func update(screen *ebiten.Image) error {
 
 	// Move balls and update velocity
 	for i := range balls {
-		objectTimestep(balls[i])
+		objectTimestep(ballList[i])
 	}
 
 	if ebiten.IsDrawingSkipped() {
@@ -82,7 +82,7 @@ func update(screen *ebiten.Image) error {
 	for i := range balls {
 		op := &ebiten.DrawImageOptions{}
 		op.GeoM.Scale(0.05, 0.05)
-		op.GeoM.Translate(balls[i].X, balls[i].Y)
+		op.GeoM.Translate(ballList[i].X, balls[i].Y)
 		screen.DrawImage(ballSprite, op)
 	}
 	return nil
@@ -98,11 +98,11 @@ func main() {
 		log.Fatal(err)
 	}
 	// Create a slice of number of balls
-	balls = make([]*ball, nballs)
+	ballList = make([]*ball, nballs)
 
 	// Call constructor to set initial values
 	for i := range balls {
-		balls[i] = createBall(float64(i)*50, 20)
+		ballList[i] = createBall(float64(i)*50, 20)
 	}
 
 	// Run simulation loop
