@@ -57,14 +57,14 @@ var (
 func init() {
 
 	// Preload images
-	file, err := os.Open("./images/basketball.png")
+	file, err := os.Open("./assets/basketball.png")
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer file.Close()
 	img, err := png.Decode(file)
 	if err != nil {
-		log.Fatal(os.Stderr, "%s: %v\n", "./images/basketball.png", err)
+		log.Fatal(os.Stderr, "%s: %v\n", "./assets/basketball.png", err)
 	}
 
 	ballSprite, _ = ebiten.NewImageFromImage(img, ebiten.FilterDefault)
