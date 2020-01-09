@@ -70,7 +70,7 @@ func init() {
 func update(screen *ebiten.Image) error {
 
 	// Move balls and update velocity
-	for i := range balls {
+	for i := range ballList {
 		objectTimestep(ballList[i])
 	}
 
@@ -79,10 +79,10 @@ func update(screen *ebiten.Image) error {
 	}
 
 	// Draw balls
-	for i := range balls {
+	for i := range ballList {
 		op := &ebiten.DrawImageOptions{}
 		op.GeoM.Scale(0.05, 0.05)
-		op.GeoM.Translate(ballList[i].X, balls[i].Y)
+		op.GeoM.Translate(ballList[i].X, ballList[i].Y)
 		screen.DrawImage(ballSprite, op)
 	}
 	return nil
@@ -101,7 +101,7 @@ func main() {
 	ballList = make([]*ball, nballs)
 
 	// Call constructor to set initial values
-	for i := range balls {
+	for i := range ballList {
 		ballList[i] = createBall(float64(i)*50, 20)
 	}
 
