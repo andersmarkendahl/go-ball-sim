@@ -3,15 +3,11 @@ package main
 import (
 	"fmt"
 	"github.com/hajimehoshi/ebiten"
+	"github.com/Aoana/ball-sim-go/internal/pkg/ball"
 	"image/png"
 	"log"
 	"os"
 )
-
-type ball struct {
-	X, Y   float64
-	vX, vY float64
-}
 
 // Debug function
 func printStatus(balls ...*ball) {
