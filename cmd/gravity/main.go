@@ -5,6 +5,7 @@ import (
 	"github.com/Aoana/ball-sim-go/pkg/objects"
 	"github.com/hajimehoshi/ebiten"
 	"log"
+	"math/rand"
 )
 
 // Global variables
@@ -63,20 +64,11 @@ func update(screen *ebiten.Image) error {
 	// Draw balls
 	for i := range ballList {
 		op := &ebiten.DrawImageOptions{}
-		op.GeoM.Scale(0.05, 0.05)
+		op.GeoM.Scale(0.02, 0.02)
 		op.GeoM.Translate(ballList[i].X, ballList[i].Y)
 		screen.DrawImage(ballList[i].Image, op)
 	}
 	return nil
-}
-
-func makeRange(n int, max float64) []float64 {
-	s := max / float64(n)
-	r := make([]float64, n)
-	for i := range r {
-		r[i] = float64(i) * s
-	}
-	return r
 }
 
 func main() {
@@ -91,12 +83,9 @@ func main() {
 	// Create a slice of number of balls
 	ballList = make([]*objects.Object, nballs)
 
-	// Create a slice of start velocity, maximum 100
-	ballVelocity := makeRange(nballs, 100)
-
 	// Call constructor to set initial values
 	for i := range ballList {
-		ballList[i], err = objects.New(100, 100, ballVelocity[i], -ballVelocity[i], "./assets/basketball.png")
+		ballList[i], err = objects.New(100, 100, rand.Float64()*50, -rand.Float64()*50, "./assets/basketball.png")
 		if err != nil {
 			log.Fatal(err)
 		}
