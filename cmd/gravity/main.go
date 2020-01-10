@@ -27,7 +27,9 @@ func performTimestep(t timestep) {
 func Bounce(o *objects.Object) error {
 
 	if o.Y > float64(screenHeight-100) {
-		o.VY = -o.VY * 0.9
+		if o.VY > 0 {
+			o.VY = -o.VY * 0.9
+		}
 	}
 	return nil
 }
