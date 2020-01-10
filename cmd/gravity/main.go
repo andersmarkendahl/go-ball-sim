@@ -3,11 +3,10 @@ package main
 import (
 	"fmt"
 	"github.com/Aoana/ball-sim-go/pkg/gfxutil"
+	"github.com/Aoana/ball-sim-go/pkg/mathutil"
 	"github.com/Aoana/ball-sim-go/pkg/objects"
 	"github.com/hajimehoshi/ebiten"
 	"log"
-	"math/rand"
-	"time"
 )
 
 // Global variables
@@ -73,13 +72,6 @@ func update(screen *ebiten.Image) error {
 	return nil
 }
 
-func randInRange(min, max float64) float64 {
-
-	rand.Seed(time.Now().UnixNano())
-
-	return rand.Float64()*(max-min) + min
-}
-
 func main() {
 
 	// User insert number of balls
@@ -104,7 +96,7 @@ func main() {
 	fmt.Println("Start setting values of balls")
 	// Create a slice of number of balls
 	for i := range ballList {
-		ballList[i], err = objects.New(float64(screenWidth)/2, float64(screenHeight)/10, randInRange(-50, 50), randInRange(-50, 50), ballImage)
+		ballList[i], err = objects.New(float64(screenWidth)/2, float64(screenHeight)/10, mathutil.RandInRange(-50, 50), mathutil.RandInRange(-50, 50), ballImage)
 		if err != nil {
 			log.Fatal(err)
 		}
