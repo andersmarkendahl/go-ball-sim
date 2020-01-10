@@ -7,6 +7,8 @@ import (
 	"log"
 	"math/rand"
 	"time"
+	"os"
+	"image/png"
 )
 
 // Global variables
@@ -79,8 +81,28 @@ func randInRange(min, max float64) float64 {
 	return rand.Float64()*(max - min) + min
 }
 
+func LoadPngImage(pngimage string) (*ebiten.Image, error) {
+
+	file, err := os.Open(pngimage)
+	if err != nil {
+		return nil, err
+	}
+	defer file.Close()
+	img, err := png.Decode(file)
+	if err != nil {
+		return nil, err
+	}
+	image, err := ebiten.NewImageFromImage(img, ebiten.FilterDefault)
+	if err != nil {
+		return nil, err
+	}
+
+	return image, nil
+
+}
 
 func main() {
+
 
 	// User insert number of balls
 	var nballs int
@@ -94,11 +116,17 @@ func main() {
 	ballList = make([]*objects.Object, nballs)
 	fmt.Printf("Done allocating %d balls...\n", nballs)
 
+	// Load image
+	ballImage, err := LoadPngImage("./assets/basketball.png")
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	// Call constructor to set initial values
 	fmt.Println("Start setting values of balls")
 	// Create a slice of number of balls
 	for i := range ballList {
-		ballList[i], err = objects.New(float64(screenWidth)/2, float64(screenHeight)/10, randInRange(-50, 50), randInRange(-50, 50), "./assets/basketball.png")
+		ballList[i], err = objects.New(float64(screenWidth)/2, float64(screenHeight)/10, randInRange(-50, 50), randInRange(-50, 50), ballImage)
 		if err != nil {
 			log.Fatal(err)
 		}

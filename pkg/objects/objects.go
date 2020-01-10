@@ -2,8 +2,6 @@ package objects
 
 import (
 	"github.com/hajimehoshi/ebiten"
-	"image/png"
-	"os"
 )
 
 type Object struct {
@@ -23,22 +21,9 @@ func (o *Object) Velocity(a, dt float64) error {
 	return nil
 }
 
-func New(x, y, vx, vy float64, pngimage string) (*Object, error) {
+func New(x, y, vx, vy float64, image *ebiten.Image) (*Object, error) {
 
-	o := Object{X: x, Y: y, VX: vx, VY: vy}
-
-	// Load image
-	file, err := os.Open(pngimage)
-	if err != nil {
-		return nil, err
-	}
-	defer file.Close()
-	img, err := png.Decode(file)
-	if err != nil {
-		return nil, err
-	}
-
-	o.Image, _ = ebiten.NewImageFromImage(img, ebiten.FilterDefault)
+	o := Object{X: x, Y: y, VX: vx, VY: vy, Image: image}
 
 	return &o, nil
 }
