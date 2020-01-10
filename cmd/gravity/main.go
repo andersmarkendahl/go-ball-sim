@@ -9,18 +9,27 @@ import (
 
 // Global variables
 var (
-	ballList []*objects.Object
-	DT, G    float64 = 10.0, 9.80665
+	ballList                  []*objects.Object
+	DT, G                     float64 = 10.0, 9.80665
+	screenWidth, screenHeight int     = 1600, 900
 )
 
 type timestep interface {
-	UpdatePosition(float64) error
-	UpdateVelocity(float64, float64) error
+	Position(float64) error
+	Velocity(float64, float64) error
 }
 
 func performTimestep(t timestep) {
-	t.UpdatePosition(DT)
-	t.UpdateVelocity(G, DT)
+	t.Position(DT)
+	t.Velocity(G, DT)
+}
+
+func Bounce(o *objects.Object) error {
+
+	if o.Y > float64(screenHeight-100) {
+		o.VY = -o.VY * 0.9
+	}
+	return nil
 }
 
 func update(screen *ebiten.Image) error {
@@ -28,6 +37,7 @@ func update(screen *ebiten.Image) error {
 	// Move balls and update velocity
 	for i := range ballList {
 		performTimestep(ballList[i])
+		Bounce(ballList[i])
 	}
 
 	if ebiten.IsDrawingSkipped() {
@@ -59,14 +69,14 @@ func main() {
 
 	// Call constructor to set initial values
 	for i := range ballList {
-		ballList[i], err = objects.New(0, float64(i)*50, 20, 0, "./assets/basketball.png")
+		ballList[i], err = objects.New(1, float64(i)*50, 20, 0, "./assets/basketball.png")
 		if err != nil {
 			log.Fatal(err)
 		}
 	}
 
 	// Run simulation loop
-	if err := ebiten.Run(update, 1600, 900, 1, "Ball Sim Go"); err != nil {
+	if err := ebiten.Run(update, screenWidth, screenHeight, 1, "Ball Sim Go"); err != nil {
 		log.Fatal(err)
 	}
 }
