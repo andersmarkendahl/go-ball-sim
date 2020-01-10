@@ -70,11 +70,19 @@ func update(screen *ebiten.Image) error {
 	return nil
 }
 
+func makeRange(n int, max float64) []float64 {
+	s := max / float64(n)
+	r := make([]float64, n)
+	for i := range r {
+		r[i] = float64(i) * s
+	}
+	return r
+}
+
 func main() {
 
-	var nballs int
-
 	// User insert number of balls
+	var nballs int
 	fmt.Println("Welcome to ball simulator! Please insert an integer")
 	_, err := fmt.Scanf("%d", &nballs)
 	if err != nil {
@@ -83,9 +91,12 @@ func main() {
 	// Create a slice of number of balls
 	ballList = make([]*objects.Object, nballs)
 
+	// Create a slice of start velocity, maximum 100
+	ballVelocity := makeRange(nballs, 100)
+
 	// Call constructor to set initial values
 	for i := range ballList {
-		ballList[i], err = objects.New(100, 100, float64(i)*10, -float64(i)*10, "./assets/basketball.png")
+		ballList[i], err = objects.New(100, 100, ballVelocity[i], -ballVelocity[i], "./assets/basketball.png")
 		if err != nil {
 			log.Fatal(err)
 		}
