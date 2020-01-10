@@ -26,9 +26,23 @@ func performTimestep(t timestep) {
 
 func Bounce(o *objects.Object) error {
 
+	var factor float64 = 0.8
+
 	if o.Y > float64(screenHeight-100) {
 		if o.VY > 0 {
-			o.VY = -o.VY * 0.9
+			o.VY = -o.VY * factor
+		}
+	}
+
+	if o.X > float64(screenWidth-100) {
+		if o.VX > 0 {
+			o.VX = -o.VX * factor
+		}
+	}
+
+	if o.X < 100 {
+		if o.VX < 0 {
+			o.VX = -o.VX * factor
 		}
 	}
 	return nil
@@ -71,7 +85,7 @@ func main() {
 
 	// Call constructor to set initial values
 	for i := range ballList {
-		ballList[i], err = objects.New(1, float64(i)*50, 20, 0, "./assets/basketball.png")
+		ballList[i], err = objects.New(100, 100, float64(i)*10, -float64(i)*10, "./assets/basketball.png")
 		if err != nil {
 			log.Fatal(err)
 		}
