@@ -6,6 +6,7 @@ import (
 	"github.com/hajimehoshi/ebiten"
 	"log"
 	"math/rand"
+	"time"
 )
 
 // Global variables
@@ -71,6 +72,14 @@ func update(screen *ebiten.Image) error {
 	return nil
 }
 
+func randInRange(min, max float64) float64 {
+
+	rand.Seed(time.Now().UnixNano())
+
+	return rand.Float64()*(max - min) + min
+}
+
+
 func main() {
 
 	// User insert number of balls
@@ -80,16 +89,21 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	fmt.Printf("Start allocating %d balls...\n", nballs)
 	// Create a slice of number of balls
 	ballList = make([]*objects.Object, nballs)
+	fmt.Printf("Done allocating %d balls...\n", nballs)
 
 	// Call constructor to set initial values
+	fmt.Println("Start setting values of balls")
+	// Create a slice of number of balls
 	for i := range ballList {
-		ballList[i], err = objects.New(100, 100, rand.Float64()*50, -rand.Float64()*50, "./assets/basketball.png")
+		ballList[i], err = objects.New(float64(screenWidth)/2, float64(screenHeight)/10, randInRange(-50, 50), randInRange(-50, 50), "./assets/basketball.png")
 		if err != nil {
 			log.Fatal(err)
 		}
 	}
+	fmt.Println("Done setting values of balls")
 
 	// Run simulation loop
 	if err := ebiten.Run(update, screenWidth, screenHeight, 1, "Ball Sim Go"); err != nil {
