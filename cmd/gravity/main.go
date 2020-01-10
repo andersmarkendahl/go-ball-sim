@@ -2,13 +2,12 @@ package main
 
 import (
 	"fmt"
+	"github.com/Aoana/ball-sim-go/pkg/gfxutil"
 	"github.com/Aoana/ball-sim-go/pkg/objects"
 	"github.com/hajimehoshi/ebiten"
 	"log"
 	"math/rand"
 	"time"
-	"os"
-	"image/png"
 )
 
 // Global variables
@@ -78,31 +77,10 @@ func randInRange(min, max float64) float64 {
 
 	rand.Seed(time.Now().UnixNano())
 
-	return rand.Float64()*(max - min) + min
-}
-
-func LoadPngImage(pngimage string) (*ebiten.Image, error) {
-
-	file, err := os.Open(pngimage)
-	if err != nil {
-		return nil, err
-	}
-	defer file.Close()
-	img, err := png.Decode(file)
-	if err != nil {
-		return nil, err
-	}
-	image, err := ebiten.NewImageFromImage(img, ebiten.FilterDefault)
-	if err != nil {
-		return nil, err
-	}
-
-	return image, nil
-
+	return rand.Float64()*(max-min) + min
 }
 
 func main() {
-
 
 	// User insert number of balls
 	var nballs int
@@ -117,7 +95,7 @@ func main() {
 	fmt.Printf("Done allocating %d balls...\n", nballs)
 
 	// Load image
-	ballImage, err := LoadPngImage("./assets/basketball.png")
+	ballImage, err := gfxutil.LoadPng("./assets/basketball.png")
 	if err != nil {
 		log.Fatal(err)
 	}
