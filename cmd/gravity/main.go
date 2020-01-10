@@ -14,6 +14,7 @@ var (
 	ballList                  []*objects.Object
 	dt, g                     float64 = 10.0, 9.80665
 	screenWidth, screenHeight int     = 1600, 900
+	backgroundImage           *ebiten.Image
 )
 
 type timestep interface {
@@ -22,8 +23,8 @@ type timestep interface {
 }
 
 func performTimestep(t timestep) {
-	t.Position(DT)
-	t.Velocity(G, DT)
+	t.Position(dt)
+	t.Velocity(g, dt)
 }
 
 func bounce(o *objects.Object) error {
@@ -62,6 +63,12 @@ func update(screen *ebiten.Image) error {
 		return nil
 	}
 
+	// Draw background
+	op := &ebiten.DrawImageOptions{}
+	op.GeoM.Scale(0.3, 0.25)
+	op.GeoM.Translate(0, 0)
+	screen.DrawImage(backgroundImage, op)
+
 	// Draw balls
 	for i := range ballList {
 		op := &ebiten.DrawImageOptions{}
@@ -86,8 +93,12 @@ func main() {
 	ballList = make([]*objects.Object, nballs)
 	fmt.Printf("Done allocating %d balls...\n", nballs)
 
-	// Load image
+	// Load images
 	ballImage, err := gfxutil.LoadPng("./assets/basketball.png")
+	if err != nil {
+		log.Fatal(err)
+	}
+	backgroundImage, err = gfxutil.LoadPng("./assets/sky.png")
 	if err != nil {
 		log.Fatal(err)
 	}
