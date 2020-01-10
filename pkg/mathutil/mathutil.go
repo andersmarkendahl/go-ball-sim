@@ -5,6 +5,7 @@ import (
 	"time"
 )
 
+// RandInRange returns a random number in given range
 func RandInRange(min, max float64) float64 {
 
 	rand.Seed(time.Now().UnixNano())

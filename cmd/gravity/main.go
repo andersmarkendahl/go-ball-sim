@@ -12,7 +12,7 @@ import (
 // Global variables
 var (
 	ballList                  []*objects.Object
-	DT, G                     float64 = 10.0, 9.80665
+	dt, g                     float64 = 10.0, 9.80665
 	screenWidth, screenHeight int     = 1600, 900
 )
 
@@ -26,9 +26,9 @@ func performTimestep(t timestep) {
 	t.Velocity(G, DT)
 }
 
-func Bounce(o *objects.Object) error {
+func bounce(o *objects.Object) error {
 
-	var factor float64 = 0.8
+	var factor = 0.8
 
 	if o.Y > float64(screenHeight-100) {
 		if o.VY > 0 {
@@ -55,7 +55,7 @@ func update(screen *ebiten.Image) error {
 	// Move balls and update velocity
 	for i := range ballList {
 		performTimestep(ballList[i])
-		Bounce(ballList[i])
+		bounce(ballList[i])
 	}
 
 	if ebiten.IsDrawingSkipped() {

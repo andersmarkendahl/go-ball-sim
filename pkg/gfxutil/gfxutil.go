@@ -6,6 +6,7 @@ import (
 	"os"
 )
 
+// LoadPng opens a png image and stores a decoded image
 func LoadPng(pngimage string) (*ebiten.Image, error) {
 
 	file, err := os.Open(pngimage)
