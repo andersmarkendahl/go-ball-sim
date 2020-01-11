@@ -6,6 +6,10 @@ Ball simulation
 
 go build -o gravity cmd/gravity/main.go
 
+## Test
+
+go test ./...
+
 ## Run
 
 ./gravity
