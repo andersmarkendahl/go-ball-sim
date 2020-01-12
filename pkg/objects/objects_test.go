@@ -77,5 +77,34 @@ func TestVelocity(t *testing.T) {
 }
 
 func TestNew(t *testing.T) {
+	for _, c := range []struct {
+		want         Object
+		x, y, vx, vy float64
+	}{
+		// Positive and negative permutations
+		{Object{X: 0, Y: 0, VX: 0, VY: 0}, 0, 0, 0, 0},
+		{Object{X: -1, Y: 2, VX: 3, VY: 4}, -1, 2, 3, 4},
+		{Object{X: 1, Y: -2, VX: 3, VY: 4}, 1, -2, 3, 4},
+		{Object{X: 1, Y: 2, VX: -3, VY: 4}, 1, 2, -3, 4},
+		{Object{X: 1, Y: 2, VX: 3, VY: -4}, 1, 2, 3, -4},
+		{Object{X: -1, Y: -2, VX: 3, VY: 4}, -1, -2, 3, 4},
+		{Object{X: 1, Y: -2, VX: -3, VY: 4}, 1, -2, -3, 4},
+		{Object{X: 1, Y: 2, VX: -3, VY: -4}, 1, 2, -3, -4},
+		{Object{X: -1, Y: 2, VX: 3, VY: -4}, -1, 2, 3, -4},
+		// Float values
+		{Object{X: 1.1, Y: 2.2, VX: 3.3, VY: 4.4}, 1.1, 2.2, 3.3, 4.4},
+		{Object{X: -1.1, Y: 2.2, VX: 3.3, VY: 4.4}, -1.1, 2.2, 3.3, 4.4},
+		{Object{X: 1.1, Y: -2.2, VX: 3.3, VY: 4.4}, 1.1, -2.2, 3.3, 4.4},
+		{Object{X: 1.1, Y: 2.2, VX: -3.3, VY: 4.4}, 1.1, 2.2, -3.3, 4.4},
+		{Object{X: 1.1, Y: 2.2, VX: 3.3, VY: -4.4}, 1.1, 2.2, 3.3, -4.4},
+	} {
+		got, err := New(c.x, c.y, c.vx, c.vy, nil)
+		if err != nil {
+			t.Errorf("New(%f, %f, %f, %f) %s", c.x, c.y, c.vx, c.vy, err)
+		}
+		if isDifferent(*got, c.want) {
+			t.Errorf("New(%f, %f, %f, %f) \nwanted: %+v\nresult: %+v", c.x, c.y, c.vx, c.vy, c.want, *got)
+		}
+	}
 
 }
