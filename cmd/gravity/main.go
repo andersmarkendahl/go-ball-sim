@@ -72,18 +72,18 @@ func update(screen *ebiten.Image) error {
 
 	// Draw walls
 	op = &ebiten.DrawImageOptions{}
-	op.GeoM.Scale(1.7, 0.9)
+	op.GeoM.Scale(1.9, 0.9)
 	op.GeoM.Translate(-50, 60)
 	screen.DrawImage(leftWallImage, op)
 	op = &ebiten.DrawImageOptions{}
-	op.GeoM.Scale(1.5, 0.9)
-	op.GeoM.Translate(1435, 50)
+	op.GeoM.Scale(1.7, 0.9)
+	op.GeoM.Translate(1400, 50)
 	screen.DrawImage(rightWallImage, op)
 
 	// Draw balls
 	for i := range ballList {
 		op := &ebiten.DrawImageOptions{}
-		op.GeoM.Scale(0.03, 0.03)
+		op.GeoM.Scale(0.06, 0.06)
 		op.GeoM.Translate(ballList[i].X, ballList[i].Y)
 		screen.DrawImage(ballList[i].Image, op)
 	}
