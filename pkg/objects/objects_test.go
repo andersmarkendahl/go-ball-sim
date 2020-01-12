@@ -32,6 +32,7 @@ func TestPosition(t *testing.T) {
 		// dt variation
 		{Object{X: 100, Y: 200, VX: 20, VY: 40}, Object{X: 102, Y: 204, VX: 20, VY: 40}, 10},
 		{Object{X: 100, Y: 200, VX: 20, VY: 40}, Object{X: 108, Y: 216, VX: 20, VY: 40}, 2.5},
+		{Object{X: 100, Y: 200, VX: 20, VY: 40}, Object{X: 112.5, Y: 225, VX: 20, VY: 40}, 1.6},
 	} {
 		c.in.Position(c.dt)
 		if isDifferent(c.in, c.want) {
