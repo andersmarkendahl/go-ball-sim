@@ -103,11 +103,22 @@ func main() {
 		log.Fatal(err)
 	}
 
+	x0 := float64(screenWidth) / 2
+	y0 := float64(screenHeight) / 10
+
 	// Call constructor to set initial values
 	fmt.Println("Start setting values of balls")
 	// Create a slice of number of balls
 	for i := range ballList {
-		ballList[i], err = objects.New(float64(screenWidth)/2, float64(screenHeight)/10, mathutil.RandInRange(-50, 50), mathutil.RandInRange(-50, 50), ballImage)
+		vx0, errX := mathutil.RandInRange(-50, 50)
+		if errX != nil {
+			log.Fatal(errX)
+		}
+		vy0, errY := mathutil.RandInRange(-50, 50)
+		if errY != nil {
+			log.Fatal(errY)
+		}
+		ballList[i], err = objects.New(x0, y0, vx0, vy0, ballImage)
 		if err != nil {
 			log.Fatal(err)
 		}
