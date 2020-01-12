@@ -5,7 +5,7 @@ import (
 )
 
 func isDifferent(a, b Object) bool {
-	if a.X == b.X && a.Y == b.Y && a.VX == b.VX && a.VY == b.VY {
+	if a.X == b.X && a.Y == b.Y && a.VX == b.VX && a.VY == b.VY && a.Image == b.Image {
 		return false
 	}
 	return true
