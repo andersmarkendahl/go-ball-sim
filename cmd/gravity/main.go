@@ -11,10 +11,11 @@ import (
 
 // Global variables
 var (
-	ballList                  []*objects.Object
-	dt, g                     float64 = 10.0, 9.80665
-	screenWidth, screenHeight int     = 1600, 900
-	backgroundImage           *ebiten.Image
+	ballList                      []*objects.Object
+	dt, g                         float64 = 10.0, 9.80665
+	screenWidth, screenHeight     int     = 1600, 900
+	backgroundImage               *ebiten.Image
+	leftWallImage, rightWallImage *ebiten.Image
 )
 
 type timestep interface {
@@ -69,10 +70,20 @@ func update(screen *ebiten.Image) error {
 	op.GeoM.Translate(0, 0)
 	screen.DrawImage(backgroundImage, op)
 
+	// Draw walls
+	op = &ebiten.DrawImageOptions{}
+	op.GeoM.Scale(1.7, 0.9)
+	op.GeoM.Translate(-50, 60)
+	screen.DrawImage(leftWallImage, op)
+	op = &ebiten.DrawImageOptions{}
+	op.GeoM.Scale(1.5, 0.9)
+	op.GeoM.Translate(1435, 50)
+	screen.DrawImage(rightWallImage, op)
+
 	// Draw balls
 	for i := range ballList {
 		op := &ebiten.DrawImageOptions{}
-		op.GeoM.Scale(0.02, 0.02)
+		op.GeoM.Scale(0.03, 0.03)
 		op.GeoM.Translate(ballList[i].X, ballList[i].Y)
 		screen.DrawImage(ballList[i].Image, op)
 	}
@@ -99,6 +110,14 @@ func main() {
 		log.Fatal(err)
 	}
 	backgroundImage, err = gfxutil.LoadPng("./assets/sky.png")
+	if err != nil {
+		log.Fatal(err)
+	}
+	leftWallImage, err = gfxutil.LoadPng("./assets/wall-left.png")
+	if err != nil {
+		log.Fatal(err)
+	}
+	rightWallImage, err = gfxutil.LoadPng("./assets/wall-right.png")
 	if err != nil {
 		log.Fatal(err)
 	}
