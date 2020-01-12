@@ -2,7 +2,7 @@
 
 Ball simulation
 
-<img src="screenshot.png" alt="Ball Simulator Screenshot" width="80%" />
+<img src="assets/screenshot.png" alt="Ball Simulator Screenshot" width="80%" />
 
 ## Build
 
