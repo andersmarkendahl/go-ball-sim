@@ -14,6 +14,7 @@ func isDifferent(a, b Object) bool {
 var fostring = "\nin: %+v\nwanted: %+v\nresult: %+v"
 
 func TestPosition(t *testing.T) {
+	// Positive tests
 	for _, c := range []struct {
 		in, want Object
 		dt       float64
@@ -40,6 +41,22 @@ func TestPosition(t *testing.T) {
 		c.in.Position(c.dt)
 		if isDifferent(c.in, c.want) {
 			t.Errorf("Position(%f)"+fostring, c.dt, orig, c.want, c.in)
+		}
+	}
+	// Negative tests
+	for _, c := range []struct {
+		in Object
+		dt float64
+	}{
+		// Timestep cannot be zero or negative
+		{Object{X: 0, Y: 0, VX: 0, VY: 0}, 0},
+		{Object{X: 0, Y: 0, VX: 0, VY: 0}, -1},
+		{Object{X: 0, Y: 0, VX: 0, VY: 0}, -40000},
+		{Object{X: 0, Y: 0, VX: 0, VY: 0}, -3.1416},
+	} {
+		err := c.in.Position(c.dt)
+		if err == nil {
+			t.Errorf("Position(%f) should fail", c.dt)
 		}
 	}
 }
@@ -71,6 +88,22 @@ func TestVelocity(t *testing.T) {
 		c.in.Velocity(c.ax, c.ay, c.dt)
 		if isDifferent(c.in, c.want) {
 			t.Errorf("Velocity(%f, %f, %f)"+fostring, c.ax, c.ay, c.dt, orig, c.want, c.in)
+		}
+	}
+	// Argument tests (negative tests)
+	for _, c := range []struct {
+		in         Object
+		ax, ay, dt float64
+	}{
+		// Timestep cannot be zero or negative
+		{Object{X: 0, Y: 0, VX: 0, VY: 0}, 0, 0, 0},
+		{Object{X: 0, Y: 0, VX: 0, VY: 0}, 0, 0, -1},
+		{Object{X: 0, Y: 0, VX: 0, VY: 0}, 0, 0, -40000},
+		{Object{X: 0, Y: 0, VX: 0, VY: 0}, 0, 0, -3.1416},
+	} {
+		err := c.in.Velocity(c.ax, c.ay, c.dt)
+		if err == nil {
+			t.Errorf("Velocity(%f, %f, %f) should fail", c.ax, c.ay, c.dt)
 		}
 	}
 

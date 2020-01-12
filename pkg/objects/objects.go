@@ -1,6 +1,7 @@
 package objects
 
 import (
+	"errors"
 	"github.com/hajimehoshi/ebiten"
 )
 
@@ -14,6 +15,11 @@ type Object struct {
 
 // Position updates position of an object based on current velocity
 func (o *Object) Position(dt float64) error {
+
+	if dt <= 0 {
+		return errors.New("Timestep (dt) negative or zero")
+	}
+
 	o.X = o.X + o.VX/dt
 	o.Y = o.Y + o.VY/dt
 	return nil
@@ -21,6 +27,11 @@ func (o *Object) Position(dt float64) error {
 
 // Velocity updates velocity of an object based on provided acceleration
 func (o *Object) Velocity(ax, ay, dt float64) error {
+
+	if dt <= 0 {
+		return errors.New("Timestep (dt) negative or zero")
+	}
+
 	o.VX = o.VX + ax/dt
 	o.VY = o.VY + ay/dt
 	return nil
