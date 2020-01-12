@@ -19,12 +19,12 @@ var (
 
 type timestep interface {
 	Position(float64) error
-	Velocity(float64, float64) error
+	Velocity(float64, float64, float64) error
 }
 
 func performTimestep(t timestep) {
 	t.Position(dt)
-	t.Velocity(g, dt)
+	t.Velocity(0, g, dt)
 }
 
 func bounce(o *objects.Object) error {

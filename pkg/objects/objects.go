@@ -20,8 +20,9 @@ func (o *Object) Position(dt float64) error {
 }
 
 // Velocity updates velocity of an object based on provided acceleration
-func (o *Object) Velocity(a, dt float64) error {
-	o.VY = o.VY + a/dt
+func (o *Object) Velocity(ax, ay, dt float64) error {
+	o.VX = o.VX + ax/dt
+	o.VY = o.VY + ay/dt
 	return nil
 }
 
