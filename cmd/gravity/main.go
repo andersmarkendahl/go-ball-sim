@@ -66,7 +66,7 @@ func update(screen *ebiten.Image) error {
 
 	// Draw background
 	op := &ebiten.DrawImageOptions{}
-	op.GeoM.Scale(1.0, 0.8)
+	op.GeoM.Scale(3.0, 2.3)
 	op.GeoM.Translate(0, 0)
 	screen.DrawImage(backgroundImage, op)
 
