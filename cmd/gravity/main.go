@@ -18,14 +18,9 @@ var (
 	leftWallImage, rightWallImage *ebiten.Image
 )
 
-type timestep interface {
-	Position(float64) error
-	Velocity(float64, float64, float64) error
-}
-
-func performTimestep(t timestep) {
-	t.Position(dt)
-	t.Velocity(0, g, dt)
+func timestep(o *objects.Object) {
+	o.Position(dt)
+	o.Velocity(0, g, dt)
 }
 
 func bounce(o *objects.Object) error {
@@ -56,7 +51,7 @@ func update(screen *ebiten.Image) error {
 
 	// Move balls and update velocity
 	for i := range ballList {
-		performTimestep(ballList[i])
+		timestep(ballList[i])
 		bounce(ballList[i])
 	}
 
