@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/Aoana/ball-sim-go/internal/pkg/gravity"
 	"github.com/Aoana/ball-sim-go/pkg/gfxutil"
 	"github.com/Aoana/ball-sim-go/pkg/mathutil"
 	"github.com/Aoana/ball-sim-go/pkg/objects"
@@ -12,16 +13,10 @@ import (
 // Global variables
 var (
 	ballList                      []*objects.Object
-	dt, g                         float64 = 10.0, 9.80665
-	screenWidth, screenHeight     int     = 1600, 900
+	screenWidth, screenHeight     int = 1600, 900
 	backgroundImage               *ebiten.Image
 	leftWallImage, rightWallImage *ebiten.Image
 )
-
-func timestep(o *objects.Object) {
-	o.Position(dt)
-	o.Velocity(0, g, dt)
-}
 
 func bounce(o *objects.Object) error {
 
@@ -51,7 +46,7 @@ func update(screen *ebiten.Image) error {
 
 	// Move balls and update velocity
 	for i := range ballList {
-		timestep(ballList[i])
+		gravity.Timestep(ballList[i])
 		bounce(ballList[i])
 	}
 
