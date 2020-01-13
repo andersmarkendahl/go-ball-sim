@@ -13,41 +13,16 @@ import (
 // Global variables
 var (
 	ballList                      []*objects.Object
-	screenWidth, screenHeight     int = 1600, 900
 	backgroundImage               *ebiten.Image
 	leftWallImage, rightWallImage *ebiten.Image
 )
-
-func bounce(o *objects.Object) error {
-
-	var factor = 0.8
-
-	if o.Y > float64(screenHeight-100) {
-		if o.VY > 0 {
-			o.VY = -o.VY * factor
-		}
-	}
-
-	if o.X > float64(screenWidth-100) {
-		if o.VX > 0 {
-			o.VX = -o.VX * factor
-		}
-	}
-
-	if o.X < 100 {
-		if o.VX < 0 {
-			o.VX = -o.VX * factor
-		}
-	}
-	return nil
-}
 
 func update(screen *ebiten.Image) error {
 
 	// Move balls and update velocity
 	for i := range ballList {
 		gravity.Timestep(ballList[i])
-		bounce(ballList[i])
+		gravity.Bounce(ballList[i])
 	}
 
 	if ebiten.IsDrawingSkipped() {
@@ -99,8 +74,8 @@ func main() {
 	}
 
 	// Starting point for balls
-	x0 := float64(screenWidth) / 2
-	y0 := float64(screenHeight) / 10
+	x0 := float64(gravity.ScreenWidth) / 2
+	y0 := float64(gravity.ScreenHeight) / 10
 
 	// Initialize balls
 	for i := range ballList {
@@ -115,7 +90,7 @@ func main() {
 	}
 
 	// Run simulation loop
-	if err := ebiten.Run(update, screenWidth, screenHeight, 1, "Ball Sim Go"); err != nil {
+	if err := ebiten.Run(update, gravity.ScreenWidth, gravity.ScreenHeight, 1, "Ball Sim Go"); err != nil {
 		log.Fatal(err)
 	}
 }
