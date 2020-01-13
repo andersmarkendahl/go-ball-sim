@@ -8,6 +8,9 @@ import (
 var (
 	dt, g                     float64 = 10.0, 9.80665
 	ScreenWidth, ScreenHeight int     = 1600, 900
+	// Starting point for balls
+	X0, Y0       float64 = float64(ScreenWidth) / 2, float64(ScreenHeight) / 10
+	MinV0, MaxV0 float64 = -50, 50
 )
 
 func Timestep(o *objects.Object) {

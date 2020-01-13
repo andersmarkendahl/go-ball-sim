@@ -73,17 +73,13 @@ func main() {
 		log.Fatal(err)
 	}
 
-	// Starting point for balls
-	x0 := float64(gravity.ScreenWidth) / 2
-	y0 := float64(gravity.ScreenHeight) / 10
-
 	// Initialize balls
 	for i := range ballList {
 		// Random starting velocity
-		vx0, _ := mathutil.RandInRange(-50, 50)
-		vy0, _ := mathutil.RandInRange(-50, 50)
+		vx0, _ := mathutil.RandInRange(gravity.MinV0, gravity.MaxV0)
+		vy0, _ := mathutil.RandInRange(gravity.MinV0, gravity.MaxV0)
 		// Object constructor
-		ballList[i], err = objects.New(x0, y0, vx0, vy0, ballImage)
+		ballList[i], err = objects.New(gravity.X0, gravity.Y0, vx0, vy0, ballImage)
 		if err != nil {
 			log.Fatal(err)
 		}
