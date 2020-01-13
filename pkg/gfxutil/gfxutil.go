@@ -26,3 +26,13 @@ func LoadPng(pngimage string) (*ebiten.Image, error) {
 	return image, nil
 
 }
+
+// PrintImage draws the image to screen including scale and translation
+func PrintImage(screen, img *ebiten.Image, tx, ty, sx, sy float64) {
+
+	op := &ebiten.DrawImageOptions{}
+	op.GeoM.Scale(sx, sy)
+	op.GeoM.Translate(tx, ty)
+	screen.DrawImage(img, op)
+
+}

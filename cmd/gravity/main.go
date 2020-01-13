@@ -65,27 +65,15 @@ func update(screen *ebiten.Image) error {
 	}
 
 	// Draw background
-	op := &ebiten.DrawImageOptions{}
-	op.GeoM.Scale(3.0, 2.3)
-	op.GeoM.Translate(0, 0)
-	screen.DrawImage(backgroundImage, op)
+	gfxutil.PrintImage(screen, backgroundImage, 0, 0, 3.0, 2.3)
 
 	// Draw walls
-	op = &ebiten.DrawImageOptions{}
-	op.GeoM.Scale(1.9, 0.9)
-	op.GeoM.Translate(-50, 60)
-	screen.DrawImage(leftWallImage, op)
-	op = &ebiten.DrawImageOptions{}
-	op.GeoM.Scale(1.7, 0.9)
-	op.GeoM.Translate(1400, 50)
-	screen.DrawImage(rightWallImage, op)
+	gfxutil.PrintImage(screen, leftWallImage, -50, 60, 1.9, 0.9)
+	gfxutil.PrintImage(screen, rightWallImage, 1400, 50, 1.7, 0.9)
 
 	// Draw balls
 	for i := range ballList {
-		op := &ebiten.DrawImageOptions{}
-		op.GeoM.Scale(0.06, 0.06)
-		op.GeoM.Translate(ballList[i].X, ballList[i].Y)
-		screen.DrawImage(ballList[i].Image, op)
+		gfxutil.PrintImage(screen, ballList[i].Image, ballList[i].X, ballList[i].Y, 0.05, 0.05)
 	}
 	return nil
 }
@@ -129,14 +117,8 @@ func main() {
 	fmt.Println("Start setting values of balls")
 	// Create a slice of number of balls
 	for i := range ballList {
-		vx0, errX := mathutil.RandInRange(-50, 50)
-		if errX != nil {
-			log.Fatal(errX)
-		}
-		vy0, errY := mathutil.RandInRange(-50, 50)
-		if errY != nil {
-			log.Fatal(errY)
-		}
+		vx0, _ := mathutil.RandInRange(-50, 50)
+		vy0, _ := mathutil.RandInRange(-50, 50)
 		ballList[i], err = objects.New(x0, y0, vx0, vy0, ballImage)
 		if err != nil {
 			log.Fatal(err)
