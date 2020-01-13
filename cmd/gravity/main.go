@@ -87,10 +87,8 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Printf("Start allocating %d balls...\n", nballs)
 	// Create a slice of number of balls
 	ballList = make([]*objects.Object, nballs)
-	fmt.Printf("Done allocating %d balls...\n", nballs)
 
 	// Load images
 	ballImage, err := gfxutil.LoadPng("./assets/basketball.png")
@@ -110,21 +108,21 @@ func main() {
 		log.Fatal(err)
 	}
 
+	// Starting point for balls
 	x0 := float64(screenWidth) / 2
 	y0 := float64(screenHeight) / 10
 
-	// Call constructor to set initial values
-	fmt.Println("Start setting values of balls")
-	// Create a slice of number of balls
+	// Initialize balls
 	for i := range ballList {
+		// Random starting velocity
 		vx0, _ := mathutil.RandInRange(-50, 50)
 		vy0, _ := mathutil.RandInRange(-50, 50)
+		// Object constructor
 		ballList[i], err = objects.New(x0, y0, vx0, vy0, ballImage)
 		if err != nil {
 			log.Fatal(err)
 		}
 	}
-	fmt.Println("Done setting values of balls")
 
 	// Run simulation loop
 	if err := ebiten.Run(update, screenWidth, screenHeight, 1, "Ball Sim Go"); err != nil {
