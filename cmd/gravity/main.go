@@ -12,9 +12,7 @@ import (
 
 // Global variables
 var (
-	ballList                      []*objects.Object
-	backgroundImage               *ebiten.Image
-	leftWallImage, rightWallImage *ebiten.Image
+	ballList []*objects.Object
 )
 
 func update(screen *ebiten.Image) error {
@@ -29,12 +27,8 @@ func update(screen *ebiten.Image) error {
 		return nil
 	}
 
-	// Draw background
-	gfxutil.PrintImage(screen, backgroundImage, 0, 0, 3.0, 2.3)
-
-	// Draw walls
-	gfxutil.PrintImage(screen, leftWallImage, -50, 60, 1.9, 0.9)
-	gfxutil.PrintImage(screen, rightWallImage, 1400, 50, 1.7, 0.9)
+	// Draw background and walls
+	gravity.DrawScenery(screen)
 
 	// Draw balls
 	for i := range ballList {
@@ -55,20 +49,7 @@ func main() {
 	// Create a slice of number of balls
 	ballList = make([]*objects.Object, nballs)
 
-	// Load images
 	ballImage, err := gfxutil.LoadPng("./assets/basketball.png")
-	if err != nil {
-		log.Fatal(err)
-	}
-	backgroundImage, err = gfxutil.LoadPng("./assets/sky.png")
-	if err != nil {
-		log.Fatal(err)
-	}
-	leftWallImage, err = gfxutil.LoadPng("./assets/wall-left.png")
-	if err != nil {
-		log.Fatal(err)
-	}
-	rightWallImage, err = gfxutil.LoadPng("./assets/wall-right.png")
 	if err != nil {
 		log.Fatal(err)
 	}

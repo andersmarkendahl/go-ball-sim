@@ -1,17 +1,40 @@
 package gravity
 
 import (
+	"github.com/Aoana/ball-sim-go/pkg/gfxutil"
 	"github.com/Aoana/ball-sim-go/pkg/objects"
+	"github.com/hajimehoshi/ebiten"
 )
 
 // Global variables
 var (
-	dt, g                     float64 = 10.0, 9.80665
-	ScreenWidth, ScreenHeight int     = 1600, 900
-	// Starting point for balls
+	// Mathematical values
+	dt, g float64 = 10.0, 9.80665
+	// Screen Resolution
+	ScreenWidth, ScreenHeight int = 1600, 900
+	// Starting values for balls
 	X0, Y0       float64 = float64(ScreenWidth) / 2, float64(ScreenHeight) / 10
 	MinV0, MaxV0 float64 = -50, 50
+	// Images
+	backgroundImage, leftWallImage, rightWallImage *ebiten.Image
 )
+
+func init() {
+
+	// Load images
+	backgroundImage, _ = gfxutil.LoadPng("./assets/sky.png")
+	leftWallImage, _ = gfxutil.LoadPng("./assets/wall-left.png")
+	rightWallImage, _ = gfxutil.LoadPng("./assets/wall-right.png")
+
+}
+
+func DrawScenery(screen *ebiten.Image) {
+	// Draw background
+	gfxutil.PrintImage(screen, backgroundImage, 0, 0, 3.0, 2.3)
+	// Draw walls
+	gfxutil.PrintImage(screen, leftWallImage, -50, 60, 1.9, 0.9)
+	gfxutil.PrintImage(screen, rightWallImage, 1400, 50, 1.7, 0.9)
+}
 
 func Timestep(o *objects.Object) {
 	o.Position(dt)
