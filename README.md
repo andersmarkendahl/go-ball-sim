@@ -10,7 +10,7 @@ go build -o gravity cmd/gravity/main.go
 
 ## Test
 
-go test ./...
+go test ./pkg/...
 
 ## Run
 

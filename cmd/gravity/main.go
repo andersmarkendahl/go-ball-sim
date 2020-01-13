@@ -17,7 +17,7 @@ var (
 
 func update(screen *ebiten.Image) error {
 
-	// Move balls and update velocity
+	// Move balls, update velocity and check for bounce
 	for i := range ballList {
 		gravity.Timestep(ballList[i])
 		gravity.Bounce(ballList[i])
