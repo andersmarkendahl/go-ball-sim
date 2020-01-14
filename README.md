@@ -15,7 +15,7 @@ go build -o gravity cmd/gravity/main.go
 ```
 go test ./pkg/...
 ```
-**Note** Only exportable packages are testable.
+**Note** Only external packages are testable.
 
 ## Run
 
