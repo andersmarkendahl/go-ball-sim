@@ -6,13 +6,19 @@ Ball simulation
 
 ## Build
 
+```
 go build -o gravity cmd/gravity/main.go
+```
 
 ## Test
 
+```
 go test ./pkg/...
+```
+**Note** Only exportable packages are testable.
 
 ## Run
 
+```
 ./gravity
-
+```
