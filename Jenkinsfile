@@ -25,7 +25,7 @@ pipeline {
                     }
                     steps {
                         sh "golint -set_exit_status ./..."
-                        sh "test -z $(gofmt -l .)"
+                        sh "test -z `gofmt -l .`"
                     }
                 }
             }
