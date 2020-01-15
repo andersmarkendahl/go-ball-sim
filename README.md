@@ -23,7 +23,7 @@ go build -o gravity cmd/gravity/main.go
 ```
 go test ./pkg/...
 ```
-**Note** Only external packages are unit tested.
+**Note** Only external packages are currently unit tested.
 
 ## Run
 

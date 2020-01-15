@@ -1,5 +1,8 @@
 pipeline {
     agent none
+    environment {
+        SLAVE_INFO = 'echo $SHELL, $USER, $PATH'
+    }
     stages {
         stage('Smoke Test') {
             parallel {
@@ -8,7 +11,7 @@ pipeline {
                         label "go-compiler"
                     }
                     steps {
-                        sh "echo $SHELL,$USER,$PATH"
+                        sh "$SLAVE_INFO"
                         sh "go build -o gravity cmd/gravity/main.go"
                     }
                 }
@@ -18,7 +21,7 @@ pipeline {
                     }
                     steps {
                         wrap([$class: 'Xvfb']) {
-                            sh "echo $SHELL,$USER,$PATH"
+                            sh "$SLAVE_INFO"
                             sh "go test ./pkg/..."
                         }
                     }
@@ -28,7 +31,7 @@ pipeline {
                         label "go-syntaxer"
                     }
                     steps {
-                        sh "echo $SHELL,$USER,$PATH"
+                        sh "$SLAVE_INFO"
                         sh "golint -set_exit_status ./..."
                         sh "test -z `gofmt -l .`"
                     }
