@@ -16,9 +16,11 @@ pipeline {
                     agent {
                         label "go-tester"
                     }
-                    steps {
-                        sh "echo $SHELL,$USER,$PATH"
-                        sh "go test ./pkg/..."
+                    wrap([$class: 'Xvfb']) {
+                        steps {
+                            sh "echo $SHELL,$USER,$PATH"
+                            sh "go test ./pkg/..."
+                        }
                     }
                 }
                 stage('Syntax') {
