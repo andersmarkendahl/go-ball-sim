@@ -8,7 +8,7 @@ pipeline {
                         label "go-compiler"
                     }
                     steps {
-                        sh "echo $USER,$PATH"
+                        sh "echo $SHELL,$USER,$PATH"
                         sh "go build -o gravity cmd/gravity/main.go"
                     }
                 }
@@ -17,7 +17,7 @@ pipeline {
                         label "go-tester"
                     }
                     steps {
-                        sh "echo $USER,$PATH"
+                        sh "echo $SHELL,$USER,$PATH"
                         sh "go test ./pkg/..."
                     }
                 }
@@ -26,7 +26,7 @@ pipeline {
                         label "go-syntaxer"
                     }
                     steps {
-                        sh "echo $USER,$PATH"
+                        sh "echo $SHELL,$USER,$PATH"
                         sh "golint -set_exit_status ./..."
                         sh "test -z `gofmt -l .`"
                     }
