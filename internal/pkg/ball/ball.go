@@ -1,4 +1,4 @@
-package bounce
+package ball
 
 import (
 	"github.com/Aoana/ball-sim-go/pkg/objects"
@@ -21,27 +21,21 @@ func New(x, y, vx, vy float64, img *ebiten.Image) (*Ball, error) {
 	return &b, nil
 }
 
-// Bounce checks if ball should bounce (invert direction)
-func Bounce(b *Ball) error {
+// Boundary checks if ball should bounce within a rectangle (invert direction)
+func Boundary(b *Ball, minx, maxx, miny, maxy, factor float64) error {
 
-	var factor = 0.8
-
-	if b.Obj.Y > float64(ScreenHeight-100) {
-		if b.Obj.VY > 0 {
-			b.Obj.VY = -b.Obj.VY * factor
-		}
+	if b.Obj.X < minx && b.Obj.VX < 0 {
+		b.Obj.VX = -b.Obj.VX * factor
+	}
+	if b.Obj.X > maxx && b.Obj.VX > 0 {
+		b.Obj.VX = -b.Obj.VX * factor
+	}
+	if b.Obj.Y < miny && b.Obj.VY < 0 {
+		b.Obj.VX = -b.Obj.VX * factor
+	}
+	if b.Obj.Y > maxy && b.Obj.VY > 0 {
+		b.Obj.VY = -b.Obj.VY * factor
 	}
 
-	if b.Obj.X > float64(ScreenWidth-100) {
-		if b.Obj.VX > 0 {
-			b.Obj.VX = -b.Obj.VX * factor
-		}
-	}
-
-	if b.Obj.X < 100 {
-		if b.Obj.VX < 0 {
-			b.Obj.VX = -b.Obj.VX * factor
-		}
-	}
 	return nil
 }

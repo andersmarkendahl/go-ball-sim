@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+	"github.com/Aoana/ball-sim-go/internal/pkg/ball"
 	"github.com/Aoana/ball-sim-go/internal/pkg/bounce"
 	"github.com/Aoana/ball-sim-go/pkg/gfxutil"
 	"github.com/Aoana/ball-sim-go/pkg/mathutil"
@@ -11,7 +12,7 @@ import (
 
 // Global variables
 var (
-	ballList []*bounce.Ball
+	ballList []*ball.Ball
 )
 
 func update(screen *ebiten.Image) error {
@@ -19,7 +20,7 @@ func update(screen *ebiten.Image) error {
 	// Move balls, update velocity and check for bounce
 	for i := range ballList {
 		bounce.Timestep(ballList[i].Obj)
-		bounce.Bounce(ballList[i])
+		bounce.OutOfBound(ballList[i])
 	}
 
 	if ebiten.IsDrawingSkipped() {
@@ -43,7 +44,7 @@ func main() {
 	flag.Parse()
 
 	// Create a slice of number of balls
-	ballList = make([]*bounce.Ball, *nballs)
+	ballList = make([]*ball.Ball, *nballs)
 
 	ballImage, err := gfxutil.LoadPng("./assets/basketball.png")
 	if err != nil {
@@ -56,7 +57,7 @@ func main() {
 		vx0, _ := mathutil.RandInRange(bounce.MinV0, bounce.MaxV0)
 		vy0, _ := mathutil.RandInRange(bounce.MinV0, bounce.MaxV0)
 		// Ball constructor
-		ballList[i], err = bounce.New(bounce.X0, bounce.Y0, vx0, vy0, ballImage)
+		ballList[i], err = ball.New(bounce.X0, bounce.Y0, vx0, vy0, ballImage)
 		if err != nil {
 			log.Fatal(err)
 		}
