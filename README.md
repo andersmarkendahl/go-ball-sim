@@ -15,7 +15,7 @@ Lastly, big thanks to my daughter who has made the images used for the graphics 
 ## Build
 
 ```
-go build -o gravity cmd/gravity/main.go
+go build -o bounce cmd/bounce/main.go
 ```
 
 ## Test
@@ -28,5 +28,5 @@ go test ./pkg/...
 ## Run
 
 ```
-./gravity
+./bounce
 ```

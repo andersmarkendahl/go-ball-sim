@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/Aoana/ball-sim-go/internal/pkg/gravity"
+	"github.com/Aoana/ball-sim-go/internal/pkg/bounce"
 	"github.com/Aoana/ball-sim-go/pkg/gfxutil"
 	"github.com/Aoana/ball-sim-go/pkg/mathutil"
 	"github.com/hajimehoshi/ebiten"
@@ -11,15 +11,15 @@ import (
 
 // Global variables
 var (
-	ballList []*gravity.Ball
+	ballList []*bounce.Ball
 )
 
 func update(screen *ebiten.Image) error {
 
 	// Move balls, update velocity and check for bounce
 	for i := range ballList {
-		gravity.Timestep(ballList[i].Obj)
-		gravity.Bounce(ballList[i])
+		bounce.Timestep(ballList[i].Obj)
+		bounce.Bounce(ballList[i])
 	}
 
 	if ebiten.IsDrawingSkipped() {
@@ -27,7 +27,7 @@ func update(screen *ebiten.Image) error {
 	}
 
 	// Draw background and walls
-	gravity.DrawScenery(screen)
+	bounce.DrawScenery(screen)
 
 	// Draw balls
 	for i := range ballList {
@@ -46,7 +46,7 @@ func main() {
 		log.Fatal(err)
 	}
 	// Create a slice of number of balls
-	ballList = make([]*gravity.Ball, nballs)
+	ballList = make([]*bounce.Ball, nballs)
 
 	ballImage, err := gfxutil.LoadPng("./assets/basketball.png")
 	if err != nil {
@@ -56,17 +56,17 @@ func main() {
 	// Initialize balls
 	for i := range ballList {
 		// Random starting velocity
-		vx0, _ := mathutil.RandInRange(gravity.MinV0, gravity.MaxV0)
-		vy0, _ := mathutil.RandInRange(gravity.MinV0, gravity.MaxV0)
+		vx0, _ := mathutil.RandInRange(bounce.MinV0, bounce.MaxV0)
+		vy0, _ := mathutil.RandInRange(bounce.MinV0, bounce.MaxV0)
 		// Ball constructor
-		ballList[i], err = gravity.New(gravity.X0, gravity.Y0, vx0, vy0, ballImage)
+		ballList[i], err = bounce.New(bounce.X0, bounce.Y0, vx0, vy0, ballImage)
 		if err != nil {
 			log.Fatal(err)
 		}
 	}
 
 	// Run simulation loop
-	if err := ebiten.Run(update, gravity.ScreenWidth, gravity.ScreenHeight, 1, "Ball Sim Go"); err != nil {
+	if err := ebiten.Run(update, bounce.ScreenWidth, bounce.ScreenHeight, 1, "Ball Sim Go"); err != nil {
 		log.Fatal(err)
 	}
 }

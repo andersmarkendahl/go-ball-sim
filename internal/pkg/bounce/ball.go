@@ -1,4 +1,4 @@
-package gravity
+package bounce
 
 import (
 	"github.com/Aoana/ball-sim-go/pkg/objects"
