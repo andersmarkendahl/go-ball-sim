@@ -9,15 +9,16 @@ import (
 // Simulation variables
 var (
 	// Mathematical values
-	dt float64 = 10.0
+	dt = 10.0
 	// Images
-	backgroundImage, SoccerBallImage *ebiten.Image
+	backgroundImage *ebiten.Image
+	SoccerBallImage *ebiten.Image
 	// Screen Resolution
 	ScreenWidth  = 1600
 	ScreenHeight = 900
 	// Starting values for balls
-//	X0            = float64(ScreenWidth) / 2
-//	Y0            = float64(ScreenHeight) / 10
+	//	X0            = float64(ScreenWidth) / 2
+	//	Y0            = float64(ScreenHeight) / 10
 	MinV0 float64 = -50
 	MaxV0 float64 = 50
 )
