@@ -12,7 +12,7 @@ pipeline {
                     }
                     steps {
                         sh "$SLAVE_INFO"
-                        sh "go build -o gravity cmd/gravity/main.go"
+                        sh "go build -o bounce cmd/bounce/main.go"
                     }
                 }
                 stage('Test') {
