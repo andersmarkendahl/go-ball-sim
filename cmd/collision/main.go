@@ -20,7 +20,7 @@ func update(screen *ebiten.Image) error {
 	// Move balls, update velocity and check for bounce
 	for i := range ballList {
 		collision.Timestep(ballList[i].Obj)
-	//		bounce.Bounce(ballList[i])
+		//		bounce.Bounce(ballList[i])
 	}
 
 	if ebiten.IsDrawingSkipped() {
