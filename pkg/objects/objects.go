@@ -2,15 +2,12 @@ package objects
 
 import (
 	"errors"
-	"github.com/hajimehoshi/ebiten"
 )
 
-// Object struct
-// Consist of position, velocity and image representation
+// Object consist of position, velocity
 type Object struct {
 	X, Y   float64
 	VX, VY float64
-	Image  *ebiten.Image
 }
 
 // Position updates position of an object based on current velocity
@@ -38,9 +35,9 @@ func (o *Object) Velocity(ax, ay, dt float64) error {
 }
 
 // New is a constructur of type Object
-func New(x, y, vx, vy float64, image *ebiten.Image) (*Object, error) {
+func New(x, y, vx, vy float64) (*Object, error) {
 
-	o := Object{X: x, Y: y, VX: vx, VY: vy, Image: image}
+	o := Object{X: x, Y: y, VX: vx, VY: vy}
 
 	return &o, nil
 }
