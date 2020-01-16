@@ -45,28 +45,3 @@ func Timestep(o *objects.Object) {
 	o.Position(dt)
 	o.Velocity(0, g, dt)
 }
-
-// Bounce checks if ball should bounce (invert direction)
-func Bounce(o *objects.Object) error {
-
-	var factor = 0.8
-
-	if o.Y > float64(ScreenHeight-100) {
-		if o.VY > 0 {
-			o.VY = -o.VY * factor
-		}
-	}
-
-	if o.X > float64(ScreenWidth-100) {
-		if o.VX > 0 {
-			o.VX = -o.VX * factor
-		}
-	}
-
-	if o.X < 100 {
-		if o.VX < 0 {
-			o.VX = -o.VX * factor
-		}
-	}
-	return nil
-}

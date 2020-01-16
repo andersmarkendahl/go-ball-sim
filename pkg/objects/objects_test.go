@@ -5,7 +5,7 @@ import (
 )
 
 func isDifferent(a, b Object) bool {
-	if a.X == b.X && a.Y == b.Y && a.VX == b.VX && a.VY == b.VY && a.Image == b.Image {
+	if a.X == b.X && a.Y == b.Y && a.VX == b.VX && a.VY == b.VY {
 		return false
 	}
 	return true
@@ -131,7 +131,7 @@ func TestNew(t *testing.T) {
 		{Object{X: 1.1, Y: 2.2, VX: -3.3, VY: 4.4}, 1.1, 2.2, -3.3, 4.4},
 		{Object{X: 1.1, Y: 2.2, VX: 3.3, VY: -4.4}, 1.1, 2.2, 3.3, -4.4},
 	} {
-		got, err := New(c.x, c.y, c.vx, c.vy, nil)
+		got, err := New(c.x, c.y, c.vx, c.vy)
 		if err != nil {
 			t.Errorf("New(%f, %f, %f, %f) %s", c.x, c.y, c.vx, c.vy, err)
 		}
