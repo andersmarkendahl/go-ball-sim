@@ -1,7 +1,7 @@
 package main
 
 import (
-	"fmt"
+	"flag"
 	"github.com/Aoana/ball-sim-go/internal/pkg/bounce"
 	"github.com/Aoana/ball-sim-go/pkg/gfxutil"
 	"github.com/Aoana/ball-sim-go/pkg/mathutil"
@@ -38,15 +38,12 @@ func update(screen *ebiten.Image) error {
 
 func main() {
 
-	// User insert number of balls
-	var nballs int
-	fmt.Println("Welcome to ball simulator! Please insert an integer")
-	_, err := fmt.Scanf("%d", &nballs)
-	if err != nil {
-		log.Fatal(err)
-	}
+	// Check user specified number of balls
+	nballs := flag.Int("nballs", 3, "Number of balls")
+	flag.Parse()
+
 	// Create a slice of number of balls
-	ballList = make([]*bounce.Ball, nballs)
+	ballList = make([]*bounce.Ball, *nballs)
 
 	ballImage, err := gfxutil.LoadPng("./assets/basketball.png")
 	if err != nil {
