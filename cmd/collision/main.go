@@ -20,7 +20,7 @@ func update(screen *ebiten.Image) error {
 	// Move balls, update velocity and check for bounce
 	for i := range ballList {
 		collision.Timestep(ballList[i].Obj)
-		ball.Boundary(ballList[i], float64(0), float64(collision.ScreenWidth-40), float64(0), float64(collision.ScreenHeight-40), float64(1))
+		collision.OutOfBound(ballList[i])
 	}
 
 	if ebiten.IsDrawingSkipped() {
