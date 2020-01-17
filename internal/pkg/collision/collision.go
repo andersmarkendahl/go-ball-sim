@@ -1,6 +1,7 @@
 package collision
 
 import (
+	"github.com/Aoana/ball-sim-go/internal/pkg/ball"
 	"github.com/Aoana/ball-sim-go/pkg/gfxutil"
 	"github.com/Aoana/ball-sim-go/pkg/objects"
 	"github.com/hajimehoshi/ebiten"
@@ -40,4 +41,9 @@ func DrawScenery(screen *ebiten.Image) {
 // Timestep is a helper function to perform a timestep with position and velocity updates
 func Timestep(o *objects.Object) {
 	o.Position(dt)
+}
+
+// OutOfBound is a helper function to set the right boundary
+func OutOfBound(b *ball.Ball) {
+	ball.Boundary(b, float64(0), float64(ScreenWidth-40), float64(0), float64(ScreenHeight-40), float64(1))
 }
