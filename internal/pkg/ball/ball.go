@@ -31,7 +31,7 @@ func Boundary(b *Ball, minx, maxx, miny, maxy, factor float64) error {
 		b.Obj.VX = -b.Obj.VX * factor
 	}
 	if b.Obj.Y < miny && b.Obj.VY < 0 {
-		b.Obj.VX = -b.Obj.VX * factor
+		b.Obj.VY = -b.Obj.VY * factor
 	}
 	if b.Obj.Y > maxy && b.Obj.VY > 0 {
 		b.Obj.VY = -b.Obj.VY * factor
