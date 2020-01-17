@@ -16,6 +16,7 @@ Lastly, big thanks to my daughter who has made the images used for the graphics 
 
 ```
 go build -o bounce cmd/bounce/main.go
+go build -o collision cmd/collision/main.go
 ```
 
 ## Test
@@ -28,5 +29,9 @@ go test ./pkg/...
 ## Run
 
 ```
-./bounce
+./bounce -nballs=10
+```
+or...
+```
+./collision -nballs=10
 ```
