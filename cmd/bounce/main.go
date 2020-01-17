@@ -4,7 +4,6 @@ import (
 	"flag"
 	"github.com/Aoana/ball-sim-go/internal/pkg/ball"
 	"github.com/Aoana/ball-sim-go/internal/pkg/bounce"
-	"github.com/Aoana/ball-sim-go/pkg/gfxutil"
 	"github.com/Aoana/ball-sim-go/pkg/mathutil"
 	"github.com/hajimehoshi/ebiten"
 	"log"
@@ -39,6 +38,8 @@ func update(screen *ebiten.Image) error {
 
 func main() {
 
+	var err error
+
 	// Check user specified number of balls
 	nballs := flag.Int("nballs", 3, "Number of balls")
 	flag.Parse()
@@ -46,18 +47,13 @@ func main() {
 	// Create a slice of number of balls
 	ballList = make([]*ball.Ball, *nballs)
 
-	ballImage, err := gfxutil.LoadPng("./assets/basketball.png")
-	if err != nil {
-		log.Fatal(err)
-	}
-
 	// Initialize balls
 	for i := range ballList {
 		// Random starting velocity
 		vx0, _ := mathutil.RandInRange(bounce.MinV0, bounce.MaxV0)
 		vy0, _ := mathutil.RandInRange(bounce.MinV0, bounce.MaxV0)
 		// Ball constructor
-		ballList[i], err = ball.New(bounce.X0, bounce.Y0, vx0, vy0, 0.05, ballImage)
+		ballList[i], err = ball.New(bounce.X0, bounce.Y0, vx0, vy0, 0.05, bounce.BallImage)
 		if err != nil {
 			log.Fatal(err)
 		}

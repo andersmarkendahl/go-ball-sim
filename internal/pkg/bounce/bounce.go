@@ -13,6 +13,7 @@ var (
 	dt, g float64 = 10.0, 9.80665
 	// Images
 	backgroundImage, leftWallImage, rightWallImage *ebiten.Image
+	BallImage                                      *ebiten.Image
 	// Screen Resolution
 	ScreenWidth  = 1600
 	ScreenHeight = 900
@@ -24,12 +25,11 @@ var (
 )
 
 func init() {
-
 	// Load images
 	backgroundImage, _ = gfxutil.LoadPng("./assets/sky.png")
 	leftWallImage, _ = gfxutil.LoadPng("./assets/wall-left.png")
 	rightWallImage, _ = gfxutil.LoadPng("./assets/wall-right.png")
-
+	BallImage, _ = gfxutil.LoadPng("./assets/basketball.png")
 }
 
 // DrawScenery is a helper function to draw background and walls

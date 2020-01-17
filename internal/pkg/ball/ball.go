@@ -28,7 +28,6 @@ func New(x, y, vx, vy, scale float64, img *ebiten.Image) (*Ball, error) {
 
 // Print a ball taking the radius into account
 func Print(screen *ebiten.Image, b *Ball) error {
-
 	gfxutil.PrintImage(screen, b.Image, b.Obj.X-b.Radius, b.Obj.Y-b.Radius, b.Scale, b.Scale)
 	return nil
 }
