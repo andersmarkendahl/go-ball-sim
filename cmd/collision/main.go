@@ -20,7 +20,7 @@ func update(screen *ebiten.Image) error {
 	// Move balls, update velocity and check for bounce
 	for i := range ballList {
 		collision.Timestep(ballList[i].Obj)
-		//		bounce.Bounce(ballList[i])
+		ball.Boundary(ballList[i], float64(0), float64(collision.ScreenWidth-40), float64(0), float64(collision.ScreenHeight-40), float64(1))
 	}
 
 	if ebiten.IsDrawingSkipped() {
@@ -32,7 +32,7 @@ func update(screen *ebiten.Image) error {
 
 	// Draw balls
 	for i := range ballList {
-		gfxutil.PrintImage(screen, ballList[i].Image, ballList[i].Obj.X, ballList[i].Obj.Y, 0.4, 0.4)
+		gfxutil.PrintImage(screen, ballList[i].Image, ballList[i].Obj.X, ballList[i].Obj.Y, 0.2, 0.2)
 	}
 	return nil
 }
