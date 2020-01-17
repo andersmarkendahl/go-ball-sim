@@ -32,7 +32,7 @@ func update(screen *ebiten.Image) error {
 
 	// Draw balls
 	for i := range ballList {
-		gfxutil.PrintImage(screen, ballList[i].Image, ballList[i].Obj.X, ballList[i].Obj.Y, 0.05, 0.05)
+		ball.Print(screen, ballList[i])
 	}
 	return nil
 }
@@ -57,7 +57,7 @@ func main() {
 		vx0, _ := mathutil.RandInRange(bounce.MinV0, bounce.MaxV0)
 		vy0, _ := mathutil.RandInRange(bounce.MinV0, bounce.MaxV0)
 		// Ball constructor
-		ballList[i], err = ball.New(bounce.X0, bounce.Y0, vx0, vy0, ballImage)
+		ballList[i], err = ball.New(bounce.X0, bounce.Y0, vx0, vy0, 0.05, ballImage)
 		if err != nil {
 			log.Fatal(err)
 		}

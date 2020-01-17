@@ -45,5 +45,5 @@ func Timestep(o *objects.Object) {
 
 // OutOfBound is a helper function to set the right boundary
 func OutOfBound(b *ball.Ball) {
-	ball.Boundary(b, float64(0), float64(ScreenWidth-40), float64(0), float64(ScreenHeight-40), float64(1))
+	ball.Boundary(b, b.Radius, float64(ScreenWidth)-b.Radius, b.Radius, float64(ScreenHeight)-b.Radius, float64(1))
 }
