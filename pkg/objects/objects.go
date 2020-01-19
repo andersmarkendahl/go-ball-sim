@@ -2,12 +2,13 @@ package objects
 
 import (
 	"errors"
+	"github.com/atedja/go-vector"
 )
 
 // Object consist of position, velocity
 type Object struct {
-	X, Y   float64
-	VX, VY float64
+	X vector.Vector
+	V vector.Vector
 }
 
 // Position updates position of an object based on current velocity
@@ -16,9 +17,9 @@ func (o *Object) Position(dt float64) error {
 	if dt <= 0 {
 		return errors.New("Timestep (dt) negative or zero")
 	}
-
-	o.X = o.X + o.VX/dt
-	o.Y = o.Y + o.VY/dt
+	tmp := o.V.Clone()
+	tmp.Scale(1 / dt)
+	o.X = vector.Add(o.X, tmp)
 	return nil
 }
 
@@ -29,15 +30,18 @@ func (o *Object) Velocity(ax, ay, dt float64) error {
 		return errors.New("Timestep (dt) negative or zero")
 	}
 
-	o.VX = o.VX + ax/dt
-	o.VY = o.VY + ay/dt
+	tmp := vector.NewWithValues([]float64{ax, ay})
+	tmp.Scale(1 / dt)
+	o.V = vector.Add(o.V, tmp)
 	return nil
 }
 
 // New is a constructur of type Object
 func New(x, y, vx, vy float64) (*Object, error) {
 
-	o := Object{X: x, Y: y, VX: vx, VY: vy}
+	X := vector.NewWithValues([]float64{x, y})
+	V := vector.NewWithValues([]float64{vx, vy})
+	o := Object{X: X, V: V}
 
 	return &o, nil
 }

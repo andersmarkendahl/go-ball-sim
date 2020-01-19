@@ -5,7 +5,7 @@ import (
 )
 
 func isDifferent(a, b Object) bool {
-	if a.X == b.X && a.Y == b.Y && a.VX == b.VX && a.VY == b.VY {
+	if a.X[0] == b.X[0] && a.X[1] == b.X[1] && a.V[0] == b.V[0] && a.V[1] == b.V[1] {
 		return false
 	}
 	return true
@@ -20,22 +20,22 @@ func TestPosition(t *testing.T) {
 		dt       float64
 	}{
 		// Position update in all directions
-		{Object{X: 0, Y: 0, VX: 0, VY: 0}, Object{X: 0, Y: 0, VX: 0, VY: 0}, 1},
-		{Object{X: 0, Y: 0, VX: 1, VY: 0}, Object{X: 1, Y: 0, VX: 1, VY: 0}, 1},
-		{Object{X: 0, Y: 0, VX: 0, VY: 1}, Object{X: 0, Y: 1, VX: 0, VY: 1}, 1},
-		{Object{X: 0, Y: 0, VX: 1, VY: 1}, Object{X: 1, Y: 1, VX: 1, VY: 1}, 1},
-		{Object{X: 0, Y: 0, VX: -1, VY: -1}, Object{X: -1, Y: -1, VX: -1, VY: -1}, 1},
-		{Object{X: 0, Y: 0, VX: -1, VY: 1}, Object{X: -1, Y: 1, VX: -1, VY: 1}, 1},
-		{Object{X: 0, Y: 0, VX: 1, VY: -1}, Object{X: 1, Y: -1, VX: 1, VY: -1}, 1},
+		{Object{X: []float64{0, 0}, V: []float64{0, 0}}, Object{X: []float64{0, 0}, V: []float64{0, 0}}, 1},
+		{Object{X: []float64{0, 0}, V: []float64{1, 0}}, Object{X: []float64{1, 0}, V: []float64{1, 0}}, 1},
+		{Object{X: []float64{0, 0}, V: []float64{0, 1}}, Object{X: []float64{0, 1}, V: []float64{0, 1}}, 1},
+		{Object{X: []float64{0, 0}, V: []float64{1, 1}}, Object{X: []float64{1, 1}, V: []float64{1, 1}}, 1},
+		{Object{X: []float64{0, 0}, V: []float64{-1, 1}}, Object{X: []float64{-1, 1}, V: []float64{-1, 1}}, 1},
+		{Object{X: []float64{0, 0}, V: []float64{1, -1}}, Object{X: []float64{1, -1}, V: []float64{1, -1}}, 1},
+		{Object{X: []float64{0, 0}, V: []float64{-1, -1}}, Object{X: []float64{-1, -1}, V: []float64{-1, -1}}, 1},
 		// Float values
-		{Object{X: 1.1, Y: 2.2, VX: 1.1, VY: 2.2}, Object{X: 2.2, Y: 4.4, VX: 1.1, VY: 2.2}, 1},
-		{Object{X: 1.1, Y: 2.2, VX: -1.1, VY: 2.2}, Object{X: 0, Y: 4.4, VX: -1.1, VY: 2.2}, 1},
-		{Object{X: 1.1, Y: 2.2, VX: 1.1, VY: -2.2}, Object{X: 2.2, Y: 0, VX: 1.1, VY: -2.2}, 1},
-		{Object{X: 1.1, Y: 2.2, VX: -1.1, VY: -2.2}, Object{X: 0, Y: 0, VX: -1.1, VY: -2.2}, 1},
+		{Object{X: []float64{1.1, 2.2}, V: []float64{1.1, 2.2}}, Object{X: []float64{2.2, 4.4}, V: []float64{1.1, 2.2}}, 1},
+		{Object{X: []float64{1.1, 2.2}, V: []float64{-1.1, 2.2}}, Object{X: []float64{0, 4.4}, V: []float64{-1.1, 2.2}}, 1},
+		{Object{X: []float64{1.1, 2.2}, V: []float64{1.1, -2.2}}, Object{X: []float64{2.2, 0}, V: []float64{1.1, -2.2}}, 1},
+		{Object{X: []float64{1.1, 2.2}, V: []float64{-1.1, -2.2}}, Object{X: []float64{0, 0}, V: []float64{-1.1, -2.2}}, 1},
 		// dt variation
-		{Object{X: 100, Y: 200, VX: 20, VY: 40}, Object{X: 102, Y: 204, VX: 20, VY: 40}, 10},
-		{Object{X: 100, Y: 200, VX: 20, VY: 40}, Object{X: 108, Y: 216, VX: 20, VY: 40}, 2.5},
-		{Object{X: 100, Y: 200, VX: 20, VY: 40}, Object{X: 112.5, Y: 225, VX: 20, VY: 40}, 1.6},
+		{Object{X: []float64{100, 200}, V: []float64{20, 40}}, Object{X: []float64{102, 204}, V: []float64{20, 40}}, 10},
+		{Object{X: []float64{100, 200}, V: []float64{20, 40}}, Object{X: []float64{108, 216}, V: []float64{20, 40}}, 2.5},
+		{Object{X: []float64{100, 200}, V: []float64{20, 40}}, Object{X: []float64{112.5, 225}, V: []float64{20, 40}}, 1.6},
 	} {
 		orig := c.in
 		c.in.Position(c.dt)
@@ -49,10 +49,10 @@ func TestPosition(t *testing.T) {
 		dt float64
 	}{
 		// Timestep cannot be zero or negative
-		{Object{X: 0, Y: 0, VX: 0, VY: 0}, 0},
-		{Object{X: 0, Y: 0, VX: 0, VY: 0}, -1},
-		{Object{X: 0, Y: 0, VX: 0, VY: 0}, -40000},
-		{Object{X: 0, Y: 0, VX: 0, VY: 0}, -3.1416},
+		{Object{X: []float64{0, 0}, V: []float64{0, 0}}, 0},
+		{Object{X: []float64{0, 0}, V: []float64{0, 0}}, -1},
+		{Object{X: []float64{0, 0}, V: []float64{0, 0}}, -40000},
+		{Object{X: []float64{0, 0}, V: []float64{0, 0}}, -3.1416},
 	} {
 		err := c.in.Position(c.dt)
 		if err == nil {
@@ -67,22 +67,22 @@ func TestVelocity(t *testing.T) {
 		ax, ay, dt float64
 	}{
 		// Velocity update in all directions
-		{Object{X: 0, Y: 0, VX: 0, VY: 0}, Object{X: 0, Y: 0, VX: 0, VY: 0}, 0, 0, 1},
-		{Object{X: 0, Y: 0, VX: 0, VY: 0}, Object{X: 0, Y: 0, VX: 1, VY: 0}, 1, 0, 1},
-		{Object{X: 0, Y: 0, VX: 0, VY: 0}, Object{X: 0, Y: 0, VX: 0, VY: 1}, 0, 1, 1},
-		{Object{X: 0, Y: 0, VX: 0, VY: 0}, Object{X: 0, Y: 0, VX: 1, VY: 1}, 1, 1, 1},
-		{Object{X: 0, Y: 0, VX: 0, VY: 0}, Object{X: 0, Y: 0, VX: -1, VY: 0}, -1, 0, 1},
-		{Object{X: 0, Y: 0, VX: 0, VY: 0}, Object{X: 0, Y: 0, VX: 0, VY: -1}, 0, -1, 1},
-		{Object{X: 0, Y: 0, VX: 0, VY: 0}, Object{X: 0, Y: 0, VX: -1, VY: -1}, -1, -1, 1},
+		{Object{X: []float64{0, 0}, V: []float64{0, 0}}, Object{X: []float64{0, 0}, V: []float64{0, 0}}, 0, 0, 1},
+		{Object{X: []float64{0, 0}, V: []float64{0, 0}}, Object{X: []float64{0, 0}, V: []float64{1, 0}}, 1, 0, 1},
+		{Object{X: []float64{0, 0}, V: []float64{0, 0}}, Object{X: []float64{0, 0}, V: []float64{0, 1}}, 0, 1, 1},
+		{Object{X: []float64{0, 0}, V: []float64{0, 0}}, Object{X: []float64{0, 0}, V: []float64{1, 1}}, 1, 1, 1},
+		{Object{X: []float64{0, 0}, V: []float64{0, 0}}, Object{X: []float64{0, 0}, V: []float64{-1, 0}}, -1, 0, 1},
+		{Object{X: []float64{0, 0}, V: []float64{0, 0}}, Object{X: []float64{0, 0}, V: []float64{0, -1}}, 0, -1, 1},
+		{Object{X: []float64{0, 0}, V: []float64{0, 0}}, Object{X: []float64{0, 0}, V: []float64{-1, -1}}, -1, -1, 1},
 		// Float values
-		{Object{X: 0, Y: 0, VX: 0, VY: 0}, Object{X: 0, Y: 0, VX: 1.5, VY: 2.5}, 1.5, 2.5, 1},
-		{Object{X: 0, Y: 0, VX: 0, VY: 0}, Object{X: 0, Y: 0, VX: -1.5, VY: 2.5}, -1.5, 2.5, 1},
-		{Object{X: 0, Y: 0, VX: 0, VY: 0}, Object{X: 0, Y: 0, VX: 1.5, VY: -2.5}, 1.5, -2.5, 1},
-		{Object{X: 0, Y: 0, VX: 0, VY: 0}, Object{X: 0, Y: 0, VX: -1.5, VY: -2.5}, -1.5, -2.5, 1},
+		{Object{X: []float64{0, 0}, V: []float64{0, 0}}, Object{X: []float64{0, 0}, V: []float64{1.5, 2.5}}, 1.5, 2.5, 1},
+		{Object{X: []float64{0, 0}, V: []float64{0, 0}}, Object{X: []float64{0, 0}, V: []float64{-1.5, 2.5}}, -1.5, 2.5, 1},
+		{Object{X: []float64{0, 0}, V: []float64{0, 0}}, Object{X: []float64{0, 0}, V: []float64{1.5, -2.5}}, 1.5, -2.5, 1},
+		{Object{X: []float64{0, 0}, V: []float64{0, 0}}, Object{X: []float64{0, 0}, V: []float64{-1.5, -2.5}}, -1.5, -2.5, 1},
 		// dt variation
-		{Object{X: 100, Y: 200, VX: 20, VY: 40}, Object{X: 100, Y: 200, VX: 21, VY: 41}, 10, 10, 10},
-		{Object{X: 100, Y: 200, VX: 20, VY: 40}, Object{X: 100, Y: 200, VX: 24, VY: 44}, 10, 10, 2.5},
-		{Object{X: 100, Y: 200, VX: 20, VY: 40}, Object{X: 100, Y: 200, VX: 26.25, VY: 46.25}, 10, 10, 1.6},
+		{Object{X: []float64{100, 200}, V: []float64{20, 40}}, Object{X: []float64{100, 200}, V: []float64{21, 41}}, 10, 10, 10},
+		{Object{X: []float64{100, 200}, V: []float64{20, 40}}, Object{X: []float64{100, 200}, V: []float64{24, 44}}, 10, 10, 2.5},
+		{Object{X: []float64{100, 200}, V: []float64{20, 40}}, Object{X: []float64{100, 200}, V: []float64{26.25, 46.25}}, 10, 10, 1.6},
 	} {
 		orig := c.in
 		c.in.Velocity(c.ax, c.ay, c.dt)
@@ -96,10 +96,10 @@ func TestVelocity(t *testing.T) {
 		ax, ay, dt float64
 	}{
 		// Timestep cannot be zero or negative
-		{Object{X: 0, Y: 0, VX: 0, VY: 0}, 0, 0, 0},
-		{Object{X: 0, Y: 0, VX: 0, VY: 0}, 0, 0, -1},
-		{Object{X: 0, Y: 0, VX: 0, VY: 0}, 0, 0, -40000},
-		{Object{X: 0, Y: 0, VX: 0, VY: 0}, 0, 0, -3.1416},
+		{Object{X: []float64{0, 0}, V: []float64{0, 0}}, 0, 0, 0},
+		{Object{X: []float64{0, 0}, V: []float64{0, 0}}, 0, 0, -1},
+		{Object{X: []float64{0, 0}, V: []float64{0, 0}}, 0, 0, -40000},
+		{Object{X: []float64{0, 0}, V: []float64{0, 0}}, 0, 0, -3.1416},
 	} {
 		err := c.in.Velocity(c.ax, c.ay, c.dt)
 		if err == nil {
@@ -115,21 +115,21 @@ func TestNew(t *testing.T) {
 		x, y, vx, vy float64
 	}{
 		// Positive and negative permutations
-		{Object{X: 0, Y: 0, VX: 0, VY: 0}, 0, 0, 0, 0},
-		{Object{X: -1, Y: 2, VX: 3, VY: 4}, -1, 2, 3, 4},
-		{Object{X: 1, Y: -2, VX: 3, VY: 4}, 1, -2, 3, 4},
-		{Object{X: 1, Y: 2, VX: -3, VY: 4}, 1, 2, -3, 4},
-		{Object{X: 1, Y: 2, VX: 3, VY: -4}, 1, 2, 3, -4},
-		{Object{X: -1, Y: -2, VX: 3, VY: 4}, -1, -2, 3, 4},
-		{Object{X: 1, Y: -2, VX: -3, VY: 4}, 1, -2, -3, 4},
-		{Object{X: 1, Y: 2, VX: -3, VY: -4}, 1, 2, -3, -4},
-		{Object{X: -1, Y: 2, VX: 3, VY: -4}, -1, 2, 3, -4},
+		{Object{X: []float64{0, 0}, V: []float64{0, 0}}, 0, 0, 0, 0},
+		{Object{X: []float64{-1, 2}, V: []float64{3, 4}}, -1, 2, 3, 4},
+		{Object{X: []float64{1, -2}, V: []float64{3, 4}}, 1, -2, 3, 4},
+		{Object{X: []float64{1, 2}, V: []float64{-3, 4}}, 1, 2, -3, 4},
+		{Object{X: []float64{1, 2}, V: []float64{3, -4}}, 1, 2, 3, -4},
+		{Object{X: []float64{-1, -2}, V: []float64{3, 4}}, -1, -2, 3, 4},
+		{Object{X: []float64{1, -2}, V: []float64{-3, 4}}, 1, -2, -3, 4},
+		{Object{X: []float64{1, 2}, V: []float64{-3, -4}}, 1, 2, -3, -4},
+		{Object{X: []float64{-1, 2}, V: []float64{3, -4}}, -1, 2, 3, -4},
 		// Float values
-		{Object{X: 1.1, Y: 2.2, VX: 3.3, VY: 4.4}, 1.1, 2.2, 3.3, 4.4},
-		{Object{X: -1.1, Y: 2.2, VX: 3.3, VY: 4.4}, -1.1, 2.2, 3.3, 4.4},
-		{Object{X: 1.1, Y: -2.2, VX: 3.3, VY: 4.4}, 1.1, -2.2, 3.3, 4.4},
-		{Object{X: 1.1, Y: 2.2, VX: -3.3, VY: 4.4}, 1.1, 2.2, -3.3, 4.4},
-		{Object{X: 1.1, Y: 2.2, VX: 3.3, VY: -4.4}, 1.1, 2.2, 3.3, -4.4},
+		{Object{X: []float64{1.1, 2.2}, V: []float64{3.3, 4.4}}, 1.1, 2.2, 3.3, 4.4},
+		{Object{X: []float64{-1.1, 2.2}, V: []float64{3.3, 4.4}}, -1.1, 2.2, 3.3, 4.4},
+		{Object{X: []float64{1.1, -2.2}, V: []float64{3.3, 4.4}}, 1.1, -2.2, 3.3, 4.4},
+		{Object{X: []float64{1.1, 2.2}, V: []float64{-3.3, 4.4}}, 1.1, 2.2, -3.3, 4.4},
+		{Object{X: []float64{1.1, 2.2}, V: []float64{3.3, -4.4}}, 1.1, 2.2, 3.3, -4.4},
 	} {
 		got, err := New(c.x, c.y, c.vx, c.vy)
 		if err != nil {

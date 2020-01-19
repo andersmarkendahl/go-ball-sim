@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"github.com/Aoana/ball-sim-go/internal/pkg/ball"
 	"github.com/Aoana/ball-sim-go/pkg/gfxutil"
-	"github.com/Aoana/ball-sim-go/pkg/mathutil"
 	"github.com/Aoana/ball-sim-go/pkg/objects"
+	"github.com/atedja/go-vector"
 	"github.com/hajimehoshi/ebiten"
 )
 
@@ -53,11 +53,11 @@ func OutOfBound(b *ball.Ball) {
 // Collide updates balls based on collision to other balls
 func Collide(b1, b2 *ball.Ball) {
 
-	d := mathutil.Magnitude(b1.Obj.X-b2.Obj.X, b1.Obj.Y-b2.Obj.Y)
+	d := vector.Subtract(b1.Obj.X, b2.Obj.X).Magnitude()
 
 	if d > b1.Radius+b2.Radius {
 		// Balls do not collide
 		return
 	}
-	fmt.Printf("Collision! b1: (%.2f, %.2f) b2: (%.2f, %.2f)\n", b1.Obj.X, b1.Obj.Y, b2.Obj.X, b2.Obj.Y)
+	fmt.Printf("Collision! b1: (%.2f, %.2f) b2: (%.2f, %.2f)\n", b1.Obj.X[0], b1.Obj.X[1], b2.Obj.X[0], b2.Obj.X[1])
 }
