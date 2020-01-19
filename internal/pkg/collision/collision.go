@@ -1,8 +1,10 @@
 package collision
 
 import (
+	"fmt"
 	"github.com/Aoana/ball-sim-go/internal/pkg/ball"
 	"github.com/Aoana/ball-sim-go/pkg/gfxutil"
+	"github.com/Aoana/ball-sim-go/pkg/mathutil"
 	"github.com/Aoana/ball-sim-go/pkg/objects"
 	"github.com/hajimehoshi/ebiten"
 )
@@ -46,4 +48,16 @@ func Timestep(o *objects.Object) {
 // OutOfBound is a helper function to set the right boundary
 func OutOfBound(b *ball.Ball) {
 	ball.Boundary(b, b.Radius, float64(ScreenWidth)-b.Radius, b.Radius, float64(ScreenHeight)-b.Radius, float64(1))
+}
+
+// Collide updates balls based on collision to other balls
+func Collide(b1, b2 *ball.Ball) {
+
+	d := mathutil.Magnitude(b1.Obj.X-b2.Obj.X, b1.Obj.Y-b2.Obj.Y)
+
+	if d > b1.Radius+b2.Radius {
+		// Balls do not collide
+		return
+	}
+	fmt.Printf("Collision! b1: (%.2f, %.2f) b2: (%.2f, %.2f)\n", b1.Obj.X, b1.Obj.Y, b2.Obj.X, b2.Obj.Y)
 }
