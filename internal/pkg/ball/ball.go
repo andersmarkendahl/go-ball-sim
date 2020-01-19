@@ -36,16 +36,16 @@ func Print(screen *ebiten.Image, b *Ball) error {
 // Boundary checks if ball should bounce within a rectangle (invert direction)
 func Boundary(b *Ball, minx, maxx, miny, maxy, factor float64) error {
 
-	if b.Obj.X[0] < minx && b.Obj.V[0] < 0 {
+	if b.Obj.X[0] < (minx+b.Radius) && b.Obj.V[0] < 0 {
 		b.Obj.V[0] = -b.Obj.V[0] * factor
 	}
-	if b.Obj.X[0] > maxx && b.Obj.V[0] > 0 {
+	if b.Obj.X[0] > (maxx-b.Radius) && b.Obj.V[0] > 0 {
 		b.Obj.V[0] = -b.Obj.V[0] * factor
 	}
-	if b.Obj.X[1] < miny && b.Obj.V[1] < 0 {
+	if b.Obj.X[1] < (miny+b.Radius) && b.Obj.V[1] < 0 {
 		b.Obj.V[1] = -b.Obj.V[1] * factor
 	}
-	if b.Obj.X[1] > maxy && b.Obj.V[1] > 0 {
+	if b.Obj.X[1] > (maxy-b.Radius) && b.Obj.V[1] > 0 {
 		b.Obj.V[1] = -b.Obj.V[1] * factor
 	}
 
