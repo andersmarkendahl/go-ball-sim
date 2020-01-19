@@ -3,6 +3,7 @@ package ball
 import (
 	"github.com/Aoana/ball-sim-go/pkg/gfxutil"
 	"github.com/Aoana/ball-sim-go/pkg/objects"
+	"github.com/atedja/go-vector"
 	"github.com/hajimehoshi/ebiten"
 )
 
@@ -49,4 +50,31 @@ func Boundary(b *Ball, minx, maxx, miny, maxy, factor float64) error {
 	}
 
 	return nil
+}
+
+// Collide updates balls based on collision to other balls
+// Calculation based on elastic collision with equal mass
+func Collide(b1, b2 *Ball) {
+
+	d := vector.Subtract(b1.Obj.X, b2.Obj.X).Magnitude()
+
+	if d > b1.Radius+b2.Radius {
+		// Balls do not collide
+		return
+	}
+
+	K1, _ := vector.Dot(vector.Subtract(b1.Obj.V, b2.Obj.V), vector.Subtract(b1.Obj.X, b2.Obj.X))
+	K2, _ := vector.Dot(vector.Subtract(b2.Obj.V, b1.Obj.V), vector.Subtract(b2.Obj.X, b1.Obj.X))
+	K1 /= (d * d)
+	K2 /= (d * d)
+
+	tmp1 := vector.Subtract(b1.Obj.X, b2.Obj.X)
+	tmp1.Scale(K1)
+
+	tmp2 := vector.Subtract(b2.Obj.X, b1.Obj.X)
+	tmp2.Scale(K2)
+
+	b1.Obj.V = vector.Subtract(b1.Obj.V, tmp1)
+	b2.Obj.V = vector.Subtract(b2.Obj.V, tmp2)
+
 }

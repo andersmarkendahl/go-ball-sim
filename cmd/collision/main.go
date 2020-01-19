@@ -16,17 +16,17 @@ var (
 
 func update(screen *ebiten.Image) error {
 
+	// Logical update
 	for i := range ballList {
+		// Move balls, update velocity and check for bounce
 		for j := range ballList {
 			if i > j {
-				collision.Collide(ballList[i], ballList[j])
+				ball.Collide(ballList[i], ballList[j])
 			}
 		}
-	}
-
-	// Move balls, update velocity and check for bounce
-	for i := range ballList {
+		// Move balls
 		collision.Timestep(ballList[i].Obj)
+		// Check bounce on walls
 		collision.OutOfBound(ballList[i])
 	}
 
