@@ -1,7 +1,6 @@
 package collision
 
 import (
-	"fmt"
 	"github.com/Aoana/ball-sim-go/internal/pkg/ball"
 	"github.com/Aoana/ball-sim-go/pkg/gfxutil"
 	"github.com/Aoana/ball-sim-go/pkg/objects"
@@ -51,6 +50,7 @@ func OutOfBound(b *ball.Ball) {
 }
 
 // Collide updates balls based on collision to other balls
+// Calculation based on elastic collision with equal mass
 func Collide(b1, b2 *ball.Ball) {
 
 	d := vector.Subtract(b1.Obj.X, b2.Obj.X).Magnitude()
@@ -59,5 +59,19 @@ func Collide(b1, b2 *ball.Ball) {
 		// Balls do not collide
 		return
 	}
-	fmt.Printf("Collision! b1: (%.2f, %.2f) b2: (%.2f, %.2f)\n", b1.Obj.X[0], b1.Obj.X[1], b2.Obj.X[0], b2.Obj.X[1])
+
+	K1, _ := vector.Dot(vector.Subtract(b1.Obj.V, b2.Obj.V), vector.Subtract(b1.Obj.X, b2.Obj.X))
+	K2, _ := vector.Dot(vector.Subtract(b2.Obj.V, b1.Obj.V), vector.Subtract(b2.Obj.X, b1.Obj.X))
+	K1 /= (d * d)
+	K2 /= (d * d)
+
+	tmp1 := vector.Subtract(b1.Obj.X, b2.Obj.X)
+	tmp1.Scale(K1)
+
+	tmp2 := vector.Subtract(b2.Obj.X, b1.Obj.X)
+	tmp2.Scale(K2)
+
+	b1.Obj.V = vector.Subtract(b1.Obj.V, tmp1)
+	b2.Obj.V = vector.Subtract(b2.Obj.V, tmp2)
+
 }

@@ -61,7 +61,7 @@ func main() {
 		vx0, _ := mathutil.RandInRange(collision.MinV0, collision.MaxV0)
 		vy0, _ := mathutil.RandInRange(collision.MinV0, collision.MaxV0)
 		// Ball constructor
-		ballList[i], err = ball.New(float64(i*100), float64(i*100), vx0, vy0, 0.2, collision.SoccerBallImage)
+		ballList[i], err = ball.New(float64(i*5), float64(i*100), vx0, vy0, 0.1, collision.SoccerBallImage)
 		if err != nil {
 			log.Fatal(err)
 		}
