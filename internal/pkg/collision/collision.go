@@ -46,8 +46,8 @@ func StartValues(bs []*ball.Ball) error {
 
 	for i := 0; i < s; i++ {
 		for j := 0; j < s; j++ {
-			cx = append(cx, float64(300+i*20))
-			cy = append(cy, float64(300+j*20))
+			cx = append(cx, float64(200+i*20))
+			cy = append(cy, float64(200+j*20))
 		}
 	}
 
