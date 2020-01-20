@@ -34,6 +34,8 @@ func Print(screen *ebiten.Image, b *Ball) error {
 }
 
 // Boundary checks if ball should bounce within a rectangle (invert direction)
+// Calculation based on collision with fixed surface
+// Coefficent of restitution set by factor (if 1 elastic collision)
 func Boundary(b *Ball, minx, maxx, miny, maxy, factor float64) error {
 
 	if b.Obj.X[0] < (minx+b.Radius) && b.Obj.V[0] < 0 {

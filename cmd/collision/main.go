@@ -4,7 +4,6 @@ import (
 	"flag"
 	"github.com/Aoana/ball-sim-go/internal/pkg/ball"
 	"github.com/Aoana/ball-sim-go/internal/pkg/collision"
-	"github.com/Aoana/ball-sim-go/pkg/mathutil"
 	"github.com/hajimehoshi/ebiten"
 	"log"
 )
@@ -18,7 +17,7 @@ func update(screen *ebiten.Image) error {
 
 	// Logical update
 	for i := range ballList {
-		// Move balls, update velocity and check for bounce
+		// Check balls against collision, ignore self and already checked
 		for j := range ballList {
 			if i > j {
 				ball.Collide(ballList[i], ballList[j])
@@ -56,15 +55,9 @@ func main() {
 	ballList = make([]*ball.Ball, *nballs)
 
 	// Initialize balls
-	for i := range ballList {
-		// Random starting velocity
-		vx0, _ := mathutil.RandInRange(collision.MinV0, collision.MaxV0)
-		vy0, _ := mathutil.RandInRange(collision.MinV0, collision.MaxV0)
-		// Ball constructor
-		ballList[i], err = ball.New(float64(i*5), float64(i*100), vx0, vy0, 0.1, collision.SoccerBallImage)
-		if err != nil {
-			log.Fatal(err)
-		}
+	err = collision.StartValues(ballList)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// Run simulation loop

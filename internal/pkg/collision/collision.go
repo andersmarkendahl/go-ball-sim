@@ -3,8 +3,10 @@ package collision
 import (
 	"github.com/Aoana/ball-sim-go/internal/pkg/ball"
 	"github.com/Aoana/ball-sim-go/pkg/gfxutil"
+	"github.com/Aoana/ball-sim-go/pkg/mathutil"
 	"github.com/Aoana/ball-sim-go/pkg/objects"
 	"github.com/hajimehoshi/ebiten"
+	"math"
 )
 
 // Simulation variables
@@ -30,6 +32,36 @@ func init() {
 	backgroundImage, _ = gfxutil.LoadPng("./assets/soccerfield.png")
 	SoccerBallImage, _ = gfxutil.LoadPng("./assets/soccerball.png")
 
+}
+
+// StartValues set starting position and velocity for a slice of balls
+// Positions spread in a square and velocity is random
+func StartValues(bs []*ball.Ball) error {
+
+	var err error
+	l := len(bs)
+	s := int(math.Round(1 + math.Sqrt(float64(l))))
+	cx := make([]float64, 0)
+	cy := make([]float64, 0)
+
+	for i := 0; i < s; i++ {
+		for j := 0; j < s; j++ {
+			cx = append(cx, float64(300+i*20))
+			cy = append(cy, float64(300+j*20))
+		}
+	}
+
+	for i := range bs {
+		// Random starting velocity
+		vx0, _ := mathutil.RandInRange(MinV0, MaxV0)
+		vy0, _ := mathutil.RandInRange(MinV0, MaxV0)
+		// Ball constructor
+		bs[i], err = ball.New(cx[i], cy[i], vx0, vy0, 0.07, SoccerBallImage)
+		if err != nil {
+			return err
+		}
+	}
+	return nil
 }
 
 // DrawScenery is a helper function to draw background
