@@ -12,7 +12,8 @@ pipeline {
                     }
                     steps {
                         sh "$SLAVE_INFO"
-                        sh "go build -o bounce cmd/bounce/main.go"
+                        sh "./scripts/bsg.sh build --clean"
+                        sh "./scripts/bsg.sh build"
                     }
                 }
                 stage('Test') {
@@ -22,7 +23,7 @@ pipeline {
                     steps {
                         wrap([$class: 'Xvfb']) {
                             sh "$SLAVE_INFO"
-                            sh "go test ./pkg/..."
+                            sh "./scripts/bsg.sh test"
                         }
                     }
                 }
@@ -32,8 +33,7 @@ pipeline {
                     }
                     steps {
                         sh "$SLAVE_INFO"
-                        sh "golint -set_exit_status ./..."
-                        sh "test -z `gofmt -l .`"
+                        sh "./scripts/bsg.sh format"
                     }
                 }
             }
