@@ -74,6 +74,16 @@ cmd_format() {
 
 }
 
+##	smoketest
+##
+##
+cmd_smoketest() {
+
+	cmd_build
+	cmd_test
+	cmd_format
+
+}
 
 # Get the command
 cmd=$1
