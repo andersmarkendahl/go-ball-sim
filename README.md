@@ -22,14 +22,13 @@ sudo apt install xorg-dev libgl1-mesa-dev
 ## Build
 
 ```
-go build -o bounce cmd/bounce/main.go
-go build -o collision cmd/collision/main.go
+./scripts/bsg.sh build
 ```
 
 ## Test
 
 ```
-go test ./pkg/...
+./scripts/bsg.sh test
 ```
 **Note** Only external packages are currently unit tested.
 
