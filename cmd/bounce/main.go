@@ -4,7 +4,6 @@ import (
 	"flag"
 	"github.com/Aoana/ball-sim-go/internal/pkg/ball"
 	"github.com/Aoana/ball-sim-go/internal/pkg/bounce"
-	"github.com/Aoana/ball-sim-go/pkg/mathutil"
 	"github.com/hajimehoshi/ebiten"
 	"log"
 )
@@ -40,19 +39,13 @@ func main() {
 	flag.Parse()
 
 	// Initialize balls
-	for i := 0; i < *nballs; i++ {
-		// Random starting velocity
-		vx0, _ := mathutil.RandInRange(bounce.MinV0, bounce.MaxV0)
-		vy0, _ := mathutil.RandInRange(bounce.MinV0, bounce.MaxV0)
-		// Ball constructor
-		err = ball.Add(bounce.X0, bounce.Y0, vx0, vy0, 0.05, bounce.BallImage)
-		if err != nil {
-			log.Fatal(err)
-		}
+	err = bounce.StartValues(*nballs)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	// Run simulation loop
-	if err := ebiten.Run(update, bounce.ScreenWidth, bounce.ScreenHeight, 1, "Ball Sim Go"); err != nil {
+	if err = ebiten.Run(update, bounce.ScreenWidth, bounce.ScreenHeight, 1, "Ball Sim Go"); err != nil {
 		log.Fatal(err)
 	}
 }

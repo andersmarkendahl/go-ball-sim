@@ -3,6 +3,7 @@ package bounce
 import (
 	"github.com/Aoana/ball-sim-go/internal/pkg/ball"
 	"github.com/Aoana/ball-sim-go/pkg/gfxutil"
+	"github.com/Aoana/ball-sim-go/pkg/mathutil"
 	"github.com/Aoana/ball-sim-go/pkg/objects"
 	"github.com/hajimehoshi/ebiten"
 )
@@ -30,6 +31,23 @@ func init() {
 	leftWallImage, _ = gfxutil.LoadPng("./assets/wall-left.png")
 	rightWallImage, _ = gfxutil.LoadPng("./assets/wall-right.png")
 	BallImage, _ = gfxutil.LoadPng("./assets/basketball.png")
+}
+
+// StartValues set starting position and velocity for a slice of balls
+// Fixed starting position and velocity is random
+func StartValues(nballs int) error {
+
+	for i := 0; i < nballs; i++ {
+		// Random starting velocity
+		vx0, _ := mathutil.RandInRange(MinV0, MaxV0)
+		vy0, _ := mathutil.RandInRange(MinV0, MaxV0)
+		// Ball constructor
+		err := ball.Add(X0, Y0, vx0, vy0, 0.05, BallImage)
+		if err != nil {
+			return err
+		}
+	}
+	return nil
 }
 
 // DrawScenery is a helper function to draw background and walls
