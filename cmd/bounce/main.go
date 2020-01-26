@@ -39,16 +39,13 @@ func main() {
 	nballs := flag.Int("nballs", 3, "Number of balls")
 	flag.Parse()
 
-	// Create a slice of number of balls
-	ball.BallList = make([]*ball.Ball, *nballs)
-
 	// Initialize balls
-	for i := range ball.BallList {
+	for i := 0; i < *nballs; i++ {
 		// Random starting velocity
 		vx0, _ := mathutil.RandInRange(bounce.MinV0, bounce.MaxV0)
 		vy0, _ := mathutil.RandInRange(bounce.MinV0, bounce.MaxV0)
 		// Ball constructor
-		ball.BallList[i], err = ball.New(bounce.X0, bounce.Y0, vx0, vy0, 0.05, bounce.BallImage)
+		err = ball.Add(bounce.X0, bounce.Y0, vx0, vy0, 0.05, bounce.BallImage)
 		if err != nil {
 			log.Fatal(err)
 		}

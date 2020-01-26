@@ -31,6 +31,26 @@ func New(x, y, vx, vy, scale float64, img *ebiten.Image) (*Ball, error) {
 	return &ba, nil
 }
 
+// Add adds a ball to global list
+func Add(x, y, vx, vy, scale float64, img *ebiten.Image) error {
+
+	b, err := New(x, y, vx, vy, scale, img)
+	if err != nil {
+		return err
+	}
+	BallList = append(BallList, b)
+	return nil
+}
+
+// Remove removes ball from global list
+func Remove(index int) {
+
+	BallList[index] = BallList[len(BallList)-1]
+	BallList[len(BallList)-1] = nil
+	BallList = BallList[:len(BallList)-1]
+
+}
+
 // Print a ball taking the radius into account
 func Print(screen *ebiten.Image, b *Ball) error {
 	gfxutil.PrintImage(screen, b.Image, b.Obj.X[0]-b.Radius, b.Obj.X[1]-b.Radius, b.Scale, b.Scale)

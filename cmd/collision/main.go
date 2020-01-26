@@ -30,7 +30,7 @@ func update(screen *ebiten.Image) error {
 	l := len(ball.BallList)
 	for i := 0; i < l; i++ {
 		if !ball.BallList[i].Active {
-			ball.BallList = collision.Remove(i, ball.BallList)
+			ball.Remove(i)
 			l--
 		}
 	}
@@ -56,11 +56,8 @@ func main() {
 	nballs := flag.Int("nballs", 3, "Number of balls")
 	flag.Parse()
 
-	// Create a slice of number of balls
-	ball.BallList = make([]*ball.Ball, *nballs)
-
 	// Initialize balls
-	err = collision.StartValues(ball.BallList)
+	err = collision.StartValues(*nballs)
 	if err != nil {
 		log.Fatal(err)
 	}

@@ -33,11 +33,10 @@ func init() {
 
 // StartValues set starting position and velocity for a slice of balls
 // Positions spread in a square and velocity is random
-func StartValues(bs []*ball.Ball) error {
+func StartValues(nballs int) error {
 
 	var err error
-	l := len(bs)
-	s := int(math.Round(1 + math.Sqrt(float64(l))))
+	s := int(math.Round(1 + math.Sqrt(float64(nballs))))
 	cx := make([]float64, 0)
 	cy := make([]float64, 0)
 
@@ -48,12 +47,12 @@ func StartValues(bs []*ball.Ball) error {
 		}
 	}
 
-	for i := range bs {
+	for i := 0; i < nballs; i++ {
 		// Random starting velocity
 		vx0, _ := mathutil.RandInRange(MinV0, MaxV0)
 		vy0, _ := mathutil.RandInRange(MinV0, MaxV0)
 		// Ball constructor
-		bs[i], err = ball.New(cx[i], cy[i], vx0, vy0, 0.07, SoccerBallImage)
+		err = ball.Add(cx[i], cy[i], vx0, vy0, 0.07, SoccerBallImage)
 		if err != nil {
 			return err
 		}
@@ -97,13 +96,4 @@ func Goal(b *ball.Ball) {
 			b.Active = false
 		}
 	}
-}
-
-// Remove removes ball from list
-func Remove(index int, bl []*ball.Ball) []*ball.Ball {
-
-	bl[index] = bl[len(bl)-1]
-	bl[len(bl)-1] = nil
-	bl = bl[:len(bl)-1]
-	return bl
 }
