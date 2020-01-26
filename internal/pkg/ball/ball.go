@@ -7,6 +7,9 @@ import (
 	"github.com/hajimehoshi/ebiten"
 )
 
+// BallList is the global slice of balls
+var BallList []*Ball
+
 // Ball consist of an Object and image representation
 type Ball struct {
 	Obj           *objects.Object

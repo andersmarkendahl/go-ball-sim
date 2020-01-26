@@ -8,34 +8,29 @@ import (
 	"log"
 )
 
-// Global variables
-var (
-	ballList []*ball.Ball
-)
-
 func update(screen *ebiten.Image) error {
 
 	// Logical update
-	for i := range ballList {
+	for i := range ball.BallList {
 		// Check balls against collision, ignore self and already checked
-		for j := range ballList {
+		for j := range ball.BallList {
 			if i > j {
-				ball.Collide(ballList[i], ballList[j])
+				ball.Collide(ball.BallList[i], ball.BallList[j])
 			}
 		}
 		// Move balls
-		collision.Timestep(ballList[i].Obj)
+		collision.Timestep(ball.BallList[i].Obj)
 		// Check if reached goal
-		collision.Goal(ballList[i])
+		collision.Goal(ball.BallList[i])
 		// Check bounce on walls
-		collision.Edge(ballList[i])
+		collision.Edge(ball.BallList[i])
 	}
 
 	// Remove deactivated balls
-	l := len(ballList)
+	l := len(ball.BallList)
 	for i := 0; i < l; i++ {
-		if !ballList[i].Active {
-			ballList = collision.Remove(i, ballList)
+		if !ball.BallList[i].Active {
+			ball.BallList = collision.Remove(i, ball.BallList)
 			l--
 		}
 	}
@@ -46,10 +41,9 @@ func update(screen *ebiten.Image) error {
 
 	// Draw background and walls
 	collision.DrawScenery(screen)
-
 	// Draw balls
-	for i := range ballList {
-		ball.Print(screen, ballList[i])
+	for i := range ball.BallList {
+		ball.Print(screen, ball.BallList[i])
 	}
 	return nil
 }
@@ -63,10 +57,10 @@ func main() {
 	flag.Parse()
 
 	// Create a slice of number of balls
-	ballList = make([]*ball.Ball, *nballs)
+	ball.BallList = make([]*ball.Ball, *nballs)
 
 	// Initialize balls
-	err = collision.StartValues(ballList)
+	err = collision.StartValues(ball.BallList)
 	if err != nil {
 		log.Fatal(err)
 	}

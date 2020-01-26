@@ -9,17 +9,12 @@ import (
 	"log"
 )
 
-// Global variables
-var (
-	ballList []*ball.Ball
-)
-
 func update(screen *ebiten.Image) error {
 
 	// Move balls, update velocity and check for bounce
-	for i := range ballList {
-		bounce.Timestep(ballList[i].Obj)
-		bounce.OutOfBound(ballList[i])
+	for i := range ball.BallList {
+		bounce.Timestep(ball.BallList[i].Obj)
+		bounce.OutOfBound(ball.BallList[i])
 	}
 
 	if ebiten.IsDrawingSkipped() {
@@ -30,8 +25,8 @@ func update(screen *ebiten.Image) error {
 	bounce.DrawScenery(screen)
 
 	// Draw balls
-	for i := range ballList {
-		ball.Print(screen, ballList[i])
+	for i := range ball.BallList {
+		ball.Print(screen, ball.BallList[i])
 	}
 	return nil
 }
@@ -45,15 +40,15 @@ func main() {
 	flag.Parse()
 
 	// Create a slice of number of balls
-	ballList = make([]*ball.Ball, *nballs)
+	ball.BallList = make([]*ball.Ball, *nballs)
 
 	// Initialize balls
-	for i := range ballList {
+	for i := range ball.BallList {
 		// Random starting velocity
 		vx0, _ := mathutil.RandInRange(bounce.MinV0, bounce.MaxV0)
 		vy0, _ := mathutil.RandInRange(bounce.MinV0, bounce.MaxV0)
 		// Ball constructor
-		ballList[i], err = ball.New(bounce.X0, bounce.Y0, vx0, vy0, 0.05, bounce.BallImage)
+		ball.BallList[i], err = ball.New(bounce.X0, bounce.Y0, vx0, vy0, 0.05, bounce.BallImage)
 		if err != nil {
 			log.Fatal(err)
 		}
