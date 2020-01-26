@@ -1,6 +1,7 @@
 package ball
 
 import (
+	"errors"
 	"github.com/Aoana/ball-sim-go/pkg/gfxutil"
 	"github.com/Aoana/ball-sim-go/pkg/objects"
 	"github.com/atedja/go-vector"
@@ -43,12 +44,17 @@ func Add(x, y, vx, vy, scale float64, img *ebiten.Image) error {
 }
 
 // Remove removes ball from global list
-func Remove(index int) {
+func Remove(index int) error {
+
+	if index < 0 || index >= len(BallList) {
+		return errors.New("Out of range index in BallList")
+	}
 
 	BallList[index] = BallList[len(BallList)-1]
 	BallList[len(BallList)-1] = nil
 	BallList = BallList[:len(BallList)-1]
 
+	return nil
 }
 
 // Print a ball taking the radius into account

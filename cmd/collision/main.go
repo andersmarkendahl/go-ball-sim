@@ -30,7 +30,10 @@ func update(screen *ebiten.Image) error {
 	l := len(ball.BallList)
 	for i := 0; i < l; i++ {
 		if !ball.BallList[i].Active {
-			ball.Remove(i)
+			err := ball.Remove(i)
+			if err != nil {
+				return err
+			}
 			l--
 		}
 	}
