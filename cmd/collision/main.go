@@ -25,8 +25,19 @@ func update(screen *ebiten.Image) error {
 		}
 		// Move balls
 		collision.Timestep(ballList[i].Obj)
+		// Check if reached goal
+		collision.Goal(ballList[i])
 		// Check bounce on walls
-		collision.OutOfBound(ballList[i])
+		collision.Edge(ballList[i])
+	}
+
+	// Remove deactivated balls
+	l := len(ballList)
+	for i := 0; i < l; i++ {
+		if !ballList[i].Active {
+			ballList = collision.Remove(i, ballList)
+			l--
+		}
 	}
 
 	if ebiten.IsDrawingSkipped() {

@@ -19,9 +19,7 @@ var (
 	// Screen Resolution
 	ScreenWidth  = 1600
 	ScreenHeight = 900
-	// Starting values for balls
-	//	X0            = float64(ScreenWidth) / 2
-	//	Y0            = float64(ScreenHeight) / 10
+	// Starting velocity for balls
 	MinV0 float64 = -50
 	MaxV0 float64 = 50
 )
@@ -31,7 +29,6 @@ func init() {
 	// Load background image
 	backgroundImage, _ = gfxutil.LoadPng("./assets/soccerfield.png")
 	SoccerBallImage, _ = gfxutil.LoadPng("./assets/soccerball.png")
-
 }
 
 // StartValues set starting position and velocity for a slice of balls
@@ -72,10 +69,41 @@ func DrawScenery(screen *ebiten.Image) {
 
 // Timestep is a helper function to perform a timestep with position and velocity updates
 func Timestep(o *objects.Object) {
+
 	o.Position(dt)
 }
 
-// OutOfBound is a helper function to set the right boundary
-func OutOfBound(b *ball.Ball) {
+// Edge checks if ball the boundary
+func Edge(b *ball.Ball) {
+
+	if !b.Active {
+		return
+	}
+	// Bounce on boundary
 	ball.Boundary(b, 0, float64(ScreenWidth), 0, float64(ScreenHeight), float64(1))
+}
+
+// Goal checks if ball reached a goal
+func Goal(b *ball.Ball) {
+
+	// Check if reached goal (left and right)
+	if b.Obj.X[0] < b.Radius && b.Obj.V[0] < 0 {
+		if b.Obj.X[1] < 640 && b.Obj.X[1] > 340 {
+			b.Active = false
+		}
+	}
+	if b.Obj.X[0] > float64(ScreenWidth)-b.Radius && b.Obj.V[0] > 0 {
+		if b.Obj.X[1] < 630 && b.Obj.X[1] > 330 {
+			b.Active = false
+		}
+	}
+}
+
+// Remove removes ball from list
+func Remove(index int, bl []*ball.Ball) []*ball.Ball {
+
+	bl[index] = bl[len(bl)-1]
+	bl[len(bl)-1] = nil
+	bl = bl[:len(bl)-1]
+	return bl
 }

@@ -12,9 +12,10 @@ type Ball struct {
 	Obj           *objects.Object
 	Image         *ebiten.Image
 	Radius, Scale float64
+	Active        bool
 }
 
-// New constructor for Ball struct
+// New is a constructor for Ball struct
 func New(x, y, vx, vy, scale float64, img *ebiten.Image) (*Ball, error) {
 	o, err := objects.New(x, y, vx, vy)
 	if err != nil {
@@ -23,7 +24,7 @@ func New(x, y, vx, vy, scale float64, img *ebiten.Image) (*Ball, error) {
 	rect := img.Bounds()
 	r := float64(rect.Max.X-rect.Min.X) * scale / 2
 
-	ba := Ball{Obj: o, Image: img, Radius: r, Scale: scale}
+	ba := Ball{Obj: o, Image: img, Radius: r, Scale: scale, Active: true}
 	return &ba, nil
 }
 
