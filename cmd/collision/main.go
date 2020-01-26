@@ -19,7 +19,7 @@ func update(screen *ebiten.Image) error {
 			}
 		}
 		// Move balls
-		collision.Timestep(ball.BallList[i].Obj)
+		collision.Timestep(ball.BallList[i])
 		// Check if reached goal
 		collision.Goal(ball.BallList[i])
 		// Check bounce on walls

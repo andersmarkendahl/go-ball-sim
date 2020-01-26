@@ -4,7 +4,6 @@ import (
 	"github.com/Aoana/ball-sim-go/internal/pkg/ball"
 	"github.com/Aoana/ball-sim-go/pkg/gfxutil"
 	"github.com/Aoana/ball-sim-go/pkg/mathutil"
-	"github.com/Aoana/ball-sim-go/pkg/objects"
 	"github.com/hajimehoshi/ebiten"
 )
 
@@ -60,9 +59,9 @@ func DrawScenery(screen *ebiten.Image) {
 }
 
 // Timestep is a helper function to perform a timestep with position and velocity updates
-func Timestep(o *objects.Object) {
-	o.Position(dt)
-	o.Velocity(0, g, dt)
+func Timestep(b *ball.Ball) {
+	b.Obj.Position(dt)
+	b.Obj.Velocity(0, g, dt)
 }
 
 // OutOfBound is a helper function to set the right boundary
