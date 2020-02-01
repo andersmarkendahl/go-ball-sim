@@ -26,10 +26,10 @@ var (
 
 func init() {
 	// Load images
-	backgroundImage, _ = gfxutil.LoadPng("./assets/sky.png")
-	leftWallImage, _ = gfxutil.LoadPng("./assets/wall-left.png")
-	rightWallImage, _ = gfxutil.LoadPng("./assets/wall-right.png")
-	BallImage, _ = gfxutil.LoadPng("./assets/basketball.png")
+	backgroundImage, _ = gfxutil.LoadPng("./assets/images/sky.png")
+	leftWallImage, _ = gfxutil.LoadPng("./assets/images/wall-left.png")
+	rightWallImage, _ = gfxutil.LoadPng("./assets/images/wall-right.png")
+	BallImage, _ = gfxutil.LoadPng("./assets/images/basketball.png")
 }
 
 // StartValues set starting position and velocity for a slice of balls
