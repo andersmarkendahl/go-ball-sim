@@ -19,25 +19,46 @@ Ubuntu:
 sudo apt install xorg-dev libgl1-mesa-dev
 ```
 
-## Build
+## Quick Start
+
+Install programs and run them
+```
+./script/bsg.sh install
+# Assuming that go binaries are placed in $PATH
+collision -nballs=50 # OR bounce -nballs=200
+```
+
+## Developer Instruction
+
+The script bsg.sh is meant to support developers.
 
 ```
-./scripts/bsg.sh build
-```
+./scripts/bsg.sh help
 
-## Test
+ bsg.sh --
 
-```
-./scripts/bsg.sh test
-```
-**Note** Only external packages are currently unit tested.
+	Script for the ball-sim-go program collection.
 
-## Run
+	Preparation;
 
-```
-./bounce -nballs=10
-```
-or...
-```
-./collision -nballs=10
+	Install the following packages:
+	Ubuntu
+		sudo apt-get install xorg-dev libgl1-mesa-dev
+
+ Commands;
+
+	build [--clean]
+		Compiles ball-sim-go programs
+
+	install
+		Installs ball-sim-go programs
+
+	test
+		Unit test the ball-sim-go programs
+
+	format
+		Lint and format check
+
+	smoketest
+		Execute build, test and format
 ```

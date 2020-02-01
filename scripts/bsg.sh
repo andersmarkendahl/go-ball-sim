@@ -45,8 +45,20 @@ cmd_build() {
 	fi
 
 	for b in $bins;do
-		go build -o $top/$b $top/cmd/$b/main.go || die "build failed $b"
+		go build -o $top/ $top/cmd/$b || die "build failed $b"
 		log "build passed $top/$b"
+	done
+
+}
+
+##	install
+##		Installs ball-sim-go programs
+##
+cmd_install() {
+
+	for b in $bins;do
+		go install $top/cmd/$b || die "install failed $b"
+		log "install passed $b"
 	done
 
 }
