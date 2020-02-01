@@ -1,6 +1,7 @@
 package collision
 
 import (
+	"github.com/Aoana/ball-sim-go/assets/images/collision"
 	"github.com/Aoana/ball-sim-go/internal/pkg/ball"
 	"github.com/Aoana/ball-sim-go/pkg/gfxutil"
 	"github.com/Aoana/ball-sim-go/pkg/mathutil"
@@ -26,8 +27,8 @@ var (
 func init() {
 
 	// Load background image
-	backgroundImage, _ = gfxutil.LoadPng("./assets/images/collision/soccerfield.png")
-	SoccerBallImage, _ = gfxutil.LoadPng("./assets/images/collision/soccerball.png")
+	backgroundImage, _ = gfxutil.LoadByteSlice(bincollision.ImageSoccerField)
+	SoccerBallImage, _ = gfxutil.LoadByteSlice(bincollision.ImageSoccerBall)
 }
 
 // StartValues set starting position and velocity for a slice of balls
