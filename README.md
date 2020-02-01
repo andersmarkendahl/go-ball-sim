@@ -10,7 +10,7 @@ Visual representation is made using Hajime Hoshis [Ebiten Game Library](https://
 
 Lastly, big thanks to my daughter who has made the images used for the graphics :).
 
-<img src="assets/screenshot.png" alt="Ball Simulator Screenshot" width="80%" />
+<img src="assets/images/screenshot.png" alt="Ball Simulator Screenshot" width="80%" />
 
 ## Prerequisites
 
