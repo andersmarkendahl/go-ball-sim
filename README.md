@@ -21,16 +21,17 @@ sudo apt install xorg-dev libgl1-mesa-dev
 
 ## Quick Start
 
-Install programs and run them
+The following assumes installed go binaries are placed in $PATH
+To install programs and run them:
 ```
 ./script/bsg.sh install
-# Assuming that go binaries are placed in $PATH
-collision -nballs=50 # OR bounce -nballs=200
+collision -nballs=50
+bounce -nballs=200
 ```
 
 ## Developer Instruction
 
-The script bsg.sh is meant to support developers.
+The script bsg.sh supports developers
 
 ```
 ./scripts/bsg.sh help
