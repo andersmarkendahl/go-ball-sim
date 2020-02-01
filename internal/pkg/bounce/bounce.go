@@ -1,7 +1,7 @@
 package bounce
 
 import (
-	"github.com/Aoana/ball-sim-go/assets/images/bounce"
+	"github.com/Aoana/ball-sim-go/assets/images"
 	"github.com/Aoana/ball-sim-go/internal/pkg/ball"
 	"github.com/Aoana/ball-sim-go/pkg/gfxutil"
 	"github.com/Aoana/ball-sim-go/pkg/mathutil"
@@ -27,10 +27,10 @@ var (
 
 func init() {
 	// Load images
-	backgroundImage, _ = gfxutil.LoadPngSlice(binbounce.ImageSky)
-	leftWallImage, _ = gfxutil.LoadPngSlice(binbounce.ImageWallLeft)
-	rightWallImage, _ = gfxutil.LoadPngSlice(binbounce.ImageWallRight)
-	BallImage, _ = gfxutil.LoadPngSlice(binbounce.ImageBasketBall)
+	backgroundImage, _ = gfxutil.LoadPngSlice(images.ImageSky)
+	leftWallImage, _ = gfxutil.LoadPngSlice(images.ImageWallLeft)
+	rightWallImage, _ = gfxutil.LoadPngSlice(images.ImageWallRight)
+	BallImage, _ = gfxutil.LoadPngSlice(images.ImageBasketBall)
 }
 
 // StartValues set starting position and velocity for a slice of balls
