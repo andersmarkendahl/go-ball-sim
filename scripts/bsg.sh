@@ -66,7 +66,10 @@ cmd_test() {
 ##
 cmd_format() {
 
-	golint -set_exit_status $top/... || die "golint failed"
+	dirs="cmd pkg internal"
+	for d in $dirs;do
+		golint -set_exit_status $top/$d/... || die "golint failed in $d"
+	done
 	log "golint passed"
 	fmt=$(gofmt -l $top)
 	test -z $fmt || die "gofmt failed $fmt"

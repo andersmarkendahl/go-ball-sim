@@ -1,7 +1,9 @@
 package gfxutil
 
 import (
+	"bytes"
 	"github.com/hajimehoshi/ebiten"
+	"image"
 	"image/png"
 	"os"
 )
@@ -15,6 +17,22 @@ func LoadPng(pngimage string) (*ebiten.Image, error) {
 	}
 	defer file.Close()
 	img, err := png.Decode(file)
+	if err != nil {
+		return nil, err
+	}
+	image, err := ebiten.NewImageFromImage(img, ebiten.FilterDefault)
+	if err != nil {
+		return nil, err
+	}
+
+	return image, nil
+
+}
+
+// LoadByteSlice opens a byte slice image and stores a decoded image
+func LoadByteSlice(bslice []byte) (*ebiten.Image, error) {
+
+	img, _, err := image.Decode(bytes.NewReader(bslice))
 	if err != nil {
 		return nil, err
 	}
