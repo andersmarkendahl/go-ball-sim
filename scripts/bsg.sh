@@ -33,20 +33,22 @@ help() {
 test -n "$1" || help
 echo "$1" | grep -qi "^help\|-h" && help
 
-##	build [--clean]
+##	build [--clean] [--tdir=<directory>]
 ##		Compiles ball-sim-go programs
 ##
 cmd_build() {
 
+	test -n "$__tdir" || __tdir="/tmp"
+
 	if test "$__clean" = "yes";then
 		for b in $bins;do
-			rm -f $top/$b
+			rm -f $__tdir/$b
 		done
 	fi
 
 	for b in $bins;do
-		go build -o $top/ $top/cmd/$b || die "build failed $b"
-		log "build passed $top/$b"
+		go build -o $__tdir/ $top/cmd/$b || die "build failed $__tdir/$b"
+		log "build passed $__tdir/$b"
 	done
 
 }
