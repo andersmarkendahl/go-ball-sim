@@ -33,12 +33,8 @@ func New(x, y, vx, vy, scale float64, img *ebiten.Image) (*Ball, error) {
 }
 
 // Add adds a ball to global list
-func Add(x, y, vx, vy, scale float64, img *ebiten.Image) error {
+func Add(b *Ball) error {
 
-	b, err := New(x, y, vx, vy, scale, img)
-	if err != nil {
-		return err
-	}
 	BallList = append(BallList, b)
 	return nil
 }

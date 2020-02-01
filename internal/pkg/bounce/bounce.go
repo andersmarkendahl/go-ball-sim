@@ -42,7 +42,11 @@ func StartValues(nballs int) error {
 		vx0, _ := mathutil.RandInRange(MinV0, MaxV0)
 		vy0, _ := mathutil.RandInRange(MinV0, MaxV0)
 		// Ball constructor
-		err := ball.Add(X0, Y0, vx0, vy0, 0.05, BallImage)
+		b, err := ball.New(X0, Y0, vx0, vy0, 0.05, BallImage)
+		if err != nil {
+			return err
+		}
+		err = ball.Add(b)
 		if err != nil {
 			return err
 		}

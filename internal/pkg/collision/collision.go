@@ -35,7 +35,6 @@ func init() {
 // Positions spread in a square and velocity is random
 func StartValues(nballs int) error {
 
-	var err error
 	s := int(math.Round(1 + math.Sqrt(float64(nballs))))
 	cx := make([]float64, 0)
 	cy := make([]float64, 0)
@@ -52,7 +51,11 @@ func StartValues(nballs int) error {
 		vx0, _ := mathutil.RandInRange(MinV0, MaxV0)
 		vy0, _ := mathutil.RandInRange(MinV0, MaxV0)
 		// Ball constructor
-		err = ball.Add(cx[i], cy[i], vx0, vy0, 0.07, SoccerBallImage)
+		b, err := ball.New(cx[i], cy[i], vx0, vy0, 0.07, SoccerBallImage)
+		if err != nil {
+			return err
+		}
+		err = ball.Add(b)
 		if err != nil {
 			return err
 		}
