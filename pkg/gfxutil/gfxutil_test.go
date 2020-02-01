@@ -1,10 +1,10 @@
 package gfxutil
 
 import (
+	"github.com/Aoana/ball-sim-go/pkg/gfxutil/testdata"
 	"testing"
 )
 
-// LoadPng opens a png image and stores a decoded image
 func TestLoadPng(t *testing.T) {
 
 	// Positive tests
@@ -28,6 +28,31 @@ func TestLoadPng(t *testing.T) {
 		_, err := LoadPng(c)
 		if err == nil {
 			t.Errorf("LoadPng(%s): loadable", c)
+		}
+	}
+}
+
+func TestPngSlice(t *testing.T) {
+
+	// Positive tests
+	for _, c := range [][]byte{
+		testdata.ExamplePng,
+	} {
+		img, err := LoadPngSlice(c)
+		if err != nil {
+			t.Errorf("LoadPngSlice(%s): %s", c, err)
+		}
+		if img == nil {
+			t.Errorf("LoadPngSlice(%s): empty image", c)
+		}
+	}
+	// Negative tests
+	for _, c := range [][]byte{
+		testdata.Garbage,
+	} {
+		_, err := LoadPngSlice(c)
+		if err == nil {
+			t.Errorf("LoadPngSlice(%s): loadable", c)
 		}
 	}
 }

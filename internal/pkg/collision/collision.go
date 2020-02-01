@@ -27,8 +27,8 @@ var (
 func init() {
 
 	// Load background image
-	backgroundImage, _ = gfxutil.LoadByteSlice(bincollision.ImageSoccerField)
-	SoccerBallImage, _ = gfxutil.LoadByteSlice(bincollision.ImageSoccerBall)
+	backgroundImage, _ = gfxutil.LoadPngSlice(bincollision.ImageSoccerField)
+	SoccerBallImage, _ = gfxutil.LoadPngSlice(bincollision.ImageSoccerBall)
 }
 
 // StartValues set starting position and velocity for a slice of balls

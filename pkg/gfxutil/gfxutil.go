@@ -29,8 +29,8 @@ func LoadPng(pngimage string) (*ebiten.Image, error) {
 
 }
 
-// LoadByteSlice opens a byte slice image and stores a decoded image
-func LoadByteSlice(bslice []byte) (*ebiten.Image, error) {
+// LoadPngSlice opens a byte slice png image and stores a decoded image
+func LoadPngSlice(bslice []byte) (*ebiten.Image, error) {
 
 	img, _, err := image.Decode(bytes.NewReader(bslice))
 	if err != nil {

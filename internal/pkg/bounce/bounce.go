@@ -27,10 +27,10 @@ var (
 
 func init() {
 	// Load images
-	backgroundImage, _ = gfxutil.LoadByteSlice(binbounce.ImageSky)
-	leftWallImage, _ = gfxutil.LoadByteSlice(binbounce.ImageWallLeft)
-	rightWallImage, _ = gfxutil.LoadByteSlice(binbounce.ImageWallRight)
-	BallImage, _ = gfxutil.LoadByteSlice(binbounce.ImageBasketBall)
+	backgroundImage, _ = gfxutil.LoadPngSlice(binbounce.ImageSky)
+	leftWallImage, _ = gfxutil.LoadPngSlice(binbounce.ImageWallLeft)
+	rightWallImage, _ = gfxutil.LoadPngSlice(binbounce.ImageWallRight)
+	BallImage, _ = gfxutil.LoadPngSlice(binbounce.ImageBasketBall)
 }
 
 // StartValues set starting position and velocity for a slice of balls
