@@ -75,7 +75,7 @@ cmd_format() {
 }
 
 ##	smoketest
-##
+##		Execute build, test and format
 ##
 cmd_smoketest() {
 
