@@ -71,6 +71,7 @@ cmd_install() {
 cmd_test() {
 
 	go test $top/pkg/... || die "test failed"
+	go test $top/internal/pkg/ball/... || die "test failed"
 	log "test passed"
 
 }
