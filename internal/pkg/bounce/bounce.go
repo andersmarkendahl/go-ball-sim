@@ -26,7 +26,7 @@ var (
 )
 
 func init() {
-	// Load images
+	// Pre-Load images
 	backgroundImage, _ = gfxutil.LoadPngSlice(images.ImageSky)
 	leftWallImage, _ = gfxutil.LoadPngSlice(images.ImageWallLeft)
 	rightWallImage, _ = gfxutil.LoadPngSlice(images.ImageWallRight)

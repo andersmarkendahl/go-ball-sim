@@ -25,6 +25,7 @@ func New(x, y, vx, vy, scale float64, img *ebiten.Image) (*Ball, error) {
 	if err != nil {
 		return nil, err
 	}
+	// Calculate radius based on width and scale used
 	rect := img.Bounds()
 	r := float64(rect.Max.X-rect.Min.X) * scale / 2
 
@@ -40,6 +41,7 @@ func Add(b *Ball) error {
 }
 
 // Remove removes ball from global list
+// Function does not keep order of balls
 func Remove(index int) error {
 
 	if index < 0 || index >= len(BallList) {

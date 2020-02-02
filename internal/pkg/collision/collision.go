@@ -11,7 +11,7 @@ import (
 
 // Simulation variables
 var (
-	// Mathematical values
+	// Timestep
 	dt = 10.0
 	// Images
 	backgroundImage *ebiten.Image
@@ -26,7 +26,7 @@ var (
 
 func init() {
 
-	// Load background image
+	// Pre-Load background image
 	backgroundImage, _ = gfxutil.LoadPngSlice(images.ImageSoccerField)
 	SoccerBallImage, _ = gfxutil.LoadPngSlice(images.ImageSoccerBall)
 }
@@ -75,9 +75,10 @@ func Timestep(b *ball.Ball) {
 	b.Obj.Position(dt)
 }
 
-// Edge checks if ball the boundary
+// Edge checks if ball reached the boundary
 func Edge(b *ball.Ball) {
 
+	// Skip check if ball marked as inactive
 	if !b.Active {
 		return
 	}

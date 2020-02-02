@@ -15,6 +15,7 @@ func r(x float64) float64 {
 	return math.Round(x*1000) / 1000
 }
 
+// Helper function to ball vs values
 func isDifferent(x, y, vx, vy float64, b *Ball) bool {
 
 	if x == r(b.Obj.X[0]) && y == r(b.Obj.X[1]) && vx == r(b.Obj.V[0]) && vy == r(b.Obj.V[1]) {
@@ -23,6 +24,7 @@ func isDifferent(x, y, vx, vy float64, b *Ball) bool {
 	return true
 }
 
+// Helper function to check if ball is present in BallList
 func isPresent(x, y, vx, vy, scale float64) bool {
 	for i := range BallList {
 		b := BallList[i]
@@ -33,15 +35,18 @@ func isPresent(x, y, vx, vy, scale float64) bool {
 	return false
 }
 
+// Loads a test image by default
 func init() {
 	img, _ = gfxutil.LoadPngSlice(images.ImageStar)
 }
 
+// Test function to create, add and remove balls to the global list
 func TestList(t *testing.T) {
 
 	for _, c := range []struct {
 		x, y, vx, vy, scale float64
 	}{
+		// Example ball starting values
 		{1.1, 2.2, 3.3, 4.4, 0.5},
 		{-1.1, 50, 50000, 0, 2.323},
 		{0, 0, 0, 0, -99.9},
@@ -68,6 +73,7 @@ func TestList(t *testing.T) {
 	}
 }
 
+// Test function to create, add and remove balls to the global list
 func TestBoundary(t *testing.T) {
 
 	for _, c := range []struct {
