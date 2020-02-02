@@ -32,10 +32,10 @@ bounce -nballs=200
 
 ## Developer Instruction
 
-The script bsg.sh supports developers
+Show the script bsg.sh help section to see tools used during development
 
 ```
-./scripts/bsg.sh help
+$ ./scripts/bsg.sh help
 
  bsg.sh --
 
@@ -49,7 +49,7 @@ The script bsg.sh supports developers
 
  Commands;
 
-	build [--clean]
+	build [--clean] [--tdir=<directory>]
 		Compiles ball-sim-go programs
 
 	install
