@@ -1,17 +1,57 @@
 package objects
 
 import (
+	"math"
 	"testing"
 )
 
+// Round to 3 decimals to ignore 10^-15 diffs
+func r(x float64) float64 {
+	return math.Round(x*1000) / 1000
+}
+
 func isDifferent(a, b Object) bool {
-	if a.X[0] == b.X[0] && a.X[1] == b.X[1] && a.V[0] == b.V[0] && a.V[1] == b.V[1] {
+
+	if r(a.X[0]) == r(b.X[0]) && r(a.X[1]) == r(b.X[1]) && r(a.V[0]) == r(b.V[0]) && r(a.V[1]) == r(b.V[1]) {
 		return false
 	}
 	return true
 }
 
 var fostring = "\nin: %+v\nwanted: %+v\nresult: %+v"
+
+func TestNew(t *testing.T) {
+	for _, c := range []struct {
+		want         Object
+		x, y, vx, vy float64
+	}{
+		// Positive and negative permutations
+		{Object{X: []float64{0, 0}, V: []float64{0, 0}}, 0, 0, 0, 0},
+		{Object{X: []float64{-1, 2}, V: []float64{3, 4}}, -1, 2, 3, 4},
+		{Object{X: []float64{1, -2}, V: []float64{3, 4}}, 1, -2, 3, 4},
+		{Object{X: []float64{1, 2}, V: []float64{-3, 4}}, 1, 2, -3, 4},
+		{Object{X: []float64{1, 2}, V: []float64{3, -4}}, 1, 2, 3, -4},
+		{Object{X: []float64{-1, -2}, V: []float64{3, 4}}, -1, -2, 3, 4},
+		{Object{X: []float64{1, -2}, V: []float64{-3, 4}}, 1, -2, -3, 4},
+		{Object{X: []float64{1, 2}, V: []float64{-3, -4}}, 1, 2, -3, -4},
+		{Object{X: []float64{-1, 2}, V: []float64{3, -4}}, -1, 2, 3, -4},
+		// Float values
+		{Object{X: []float64{1.1, 2.2}, V: []float64{3.3, 4.4}}, 1.1, 2.2, 3.3, 4.4},
+		{Object{X: []float64{-1.1, 2.2}, V: []float64{3.3, 4.4}}, -1.1, 2.2, 3.3, 4.4},
+		{Object{X: []float64{1.1, -2.2}, V: []float64{3.3, 4.4}}, 1.1, -2.2, 3.3, 4.4},
+		{Object{X: []float64{1.1, 2.2}, V: []float64{-3.3, 4.4}}, 1.1, 2.2, -3.3, 4.4},
+		{Object{X: []float64{1.1, 2.2}, V: []float64{3.3, -4.4}}, 1.1, 2.2, 3.3, -4.4},
+	} {
+		got, err := New(c.x, c.y, c.vx, c.vy)
+		if err != nil {
+			t.Errorf("New(%f, %f, %f, %f) %s", c.x, c.y, c.vx, c.vy, err)
+		}
+		if isDifferent(*got, c.want) {
+			t.Errorf("New(%f, %f, %f, %f) \nwanted: %+v\nresult: %+v", c.x, c.y, c.vx, c.vy, c.want, *got)
+		}
+	}
+
+}
 
 func TestPosition(t *testing.T) {
 	// Positive tests
@@ -109,34 +149,43 @@ func TestVelocity(t *testing.T) {
 
 }
 
-func TestNew(t *testing.T) {
+func TestElasticCollision(t *testing.T) {
 	for _, c := range []struct {
-		want         Object
-		x, y, vx, vy float64
+		in1, in2     Object
+		want1, want2 Object
 	}{
-		// Positive and negative permutations
-		{Object{X: []float64{0, 0}, V: []float64{0, 0}}, 0, 0, 0, 0},
-		{Object{X: []float64{-1, 2}, V: []float64{3, 4}}, -1, 2, 3, 4},
-		{Object{X: []float64{1, -2}, V: []float64{3, 4}}, 1, -2, 3, 4},
-		{Object{X: []float64{1, 2}, V: []float64{-3, 4}}, 1, 2, -3, 4},
-		{Object{X: []float64{1, 2}, V: []float64{3, -4}}, 1, 2, 3, -4},
-		{Object{X: []float64{-1, -2}, V: []float64{3, 4}}, -1, -2, 3, 4},
-		{Object{X: []float64{1, -2}, V: []float64{-3, 4}}, 1, -2, -3, 4},
-		{Object{X: []float64{1, 2}, V: []float64{-3, -4}}, 1, 2, -3, -4},
-		{Object{X: []float64{-1, 2}, V: []float64{3, -4}}, -1, 2, 3, -4},
-		// Float values
-		{Object{X: []float64{1.1, 2.2}, V: []float64{3.3, 4.4}}, 1.1, 2.2, 3.3, 4.4},
-		{Object{X: []float64{-1.1, 2.2}, V: []float64{3.3, 4.4}}, -1.1, 2.2, 3.3, 4.4},
-		{Object{X: []float64{1.1, -2.2}, V: []float64{3.3, 4.4}}, 1.1, -2.2, 3.3, 4.4},
-		{Object{X: []float64{1.1, 2.2}, V: []float64{-3.3, 4.4}}, 1.1, 2.2, -3.3, 4.4},
-		{Object{X: []float64{1.1, 2.2}, V: []float64{3.3, -4.4}}, 1.1, 2.2, 3.3, -4.4},
+		// No moving Objects
+		{Object{X: []float64{0, 0}, V: []float64{0, 0}}, Object{X: []float64{1, 1}, V: []float64{0, 0}},
+			Object{X: []float64{0, 0}, V: []float64{0, 0}}, Object{X: []float64{1, 1}, V: []float64{0, 0}}},
+		// Objects in same place (no change)
+		{Object{X: []float64{5, 5}, V: []float64{100, 100}}, Object{X: []float64{5, 5}, V: []float64{-2, 2}},
+			Object{X: []float64{5, 5}, V: []float64{100, 100}}, Object{X: []float64{5, 5}, V: []float64{-2, 2}}},
+		// One Object at rest
+		{Object{X: []float64{0, 0}, V: []float64{1.5, 0}}, Object{X: []float64{1, 0}, V: []float64{0, 0}},
+			Object{X: []float64{0, 0}, V: []float64{0, 0}}, Object{X: []float64{1, 0}, V: []float64{1.5, 0}}},
+		{Object{X: []float64{0, 0}, V: []float64{0, 0}}, Object{X: []float64{1, 0}, V: []float64{-0.9, 0}},
+			Object{X: []float64{0, 0}, V: []float64{-0.9, 0}}, Object{X: []float64{1, 0}, V: []float64{0, 0}}},
+		{Object{X: []float64{0, 0}, V: []float64{0, 0}}, Object{X: []float64{0, 1}, V: []float64{0, -1000.55}},
+			Object{X: []float64{0, 0}, V: []float64{0, -1000.55}}, Object{X: []float64{0, 1}, V: []float64{0, 0}}},
+		{Object{X: []float64{0, 0}, V: []float64{1, 1}}, Object{X: []float64{1, 1}, V: []float64{0, 0}},
+			Object{X: []float64{0, 0}, V: []float64{0, 0}}, Object{X: []float64{1, 1}, V: []float64{1, 1}}},
+		// Frontal collision
+		{Object{X: []float64{0, 0}, V: []float64{1, 0}}, Object{X: []float64{1, 0}, V: []float64{-1, 0}},
+			Object{X: []float64{0, 0}, V: []float64{-1, 0}}, Object{X: []float64{1, 0}, V: []float64{1, 0}}},
+		{Object{X: []float64{0, 0}, V: []float64{100, 100}}, Object{X: []float64{1, 1}, V: []float64{-100, -100}},
+			Object{X: []float64{0, 0}, V: []float64{-100, -100}}, Object{X: []float64{1, 1}, V: []float64{100, 100}}},
 	} {
-		got, err := New(c.x, c.y, c.vx, c.vy)
+		orig1 := c.in1
+		orig2 := c.in2
+		err := ElasticCollision(&c.in1, &c.in2)
 		if err != nil {
-			t.Errorf("New(%f, %f, %f, %f) %s", c.x, c.y, c.vx, c.vy, err)
+			t.Errorf("ElasticCollision(%+vf, %+v) error %s", c.in1, c.in2, err)
 		}
-		if isDifferent(*got, c.want) {
-			t.Errorf("New(%f, %f, %f, %f) \nwanted: %+v\nresult: %+v", c.x, c.y, c.vx, c.vy, c.want, *got)
+		if isDifferent(c.in1, c.want1) {
+			t.Errorf("ElasticCollision(%+vf, %+v) %+vf != %+v", orig1, orig2, c.in1, c.want1)
+		}
+		if isDifferent(c.in2, c.want2) {
+			t.Errorf("ElasticCollision(%+vf, %+v) %+vf != %+v", orig1, orig2, c.in2, c.want2)
 		}
 	}
 
