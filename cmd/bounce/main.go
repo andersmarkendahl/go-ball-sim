@@ -35,7 +35,7 @@ func main() {
 	var err error
 
 	// Check user specified number of balls
-	nballs := flag.Int("nballs", 3, "Number of balls")
+	nballs := flag.Int("nballs", 10, "Number of balls")
 	flag.Parse()
 
 	// Initialize balls

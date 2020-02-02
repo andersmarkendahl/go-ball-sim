@@ -22,7 +22,8 @@ sudo apt install xorg-dev libgl1-mesa-dev
 ## Quick Start
 
 The following assumes installed go binaries are placed in $PATH
-To install programs and run them:
+
+To install programs and run each program:
 ```
 ./script/bsg.sh install
 collision -nballs=50
