@@ -1,4 +1,4 @@
-# ball-sim-go
+# go-ball-sim
 
 A learning exercise for a golang project: Ball simulator.
 
@@ -39,7 +39,7 @@ $ ./scripts/bsg.sh help
 
  bsg.sh --
 
-	Script for the ball-sim-go program collection.
+	Script for the go-ball-sim program collection.
 
 	Preparation;
 
@@ -50,13 +50,13 @@ $ ./scripts/bsg.sh help
  Commands;
 
 	build [--clean] [--tdir=<directory>]
-		Compiles ball-sim-go programs
+		Compiles go-ball-sim programs
 
 	install
-		Installs ball-sim-go programs
+		Installs go-ball-sim programs
 
 	test
-		Unit test the ball-sim-go programs
+		Unit test the go-ball-sim programs
 
 	format
 		Lint and format check

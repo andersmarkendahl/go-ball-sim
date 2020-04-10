@@ -1,10 +1,10 @@
 package bounce
 
 import (
-	"github.com/Aoana/ball-sim-go/assets/images"
-	"github.com/Aoana/ball-sim-go/internal/pkg/ball"
-	"github.com/Aoana/ball-sim-go/pkg/gfxutil"
-	"github.com/Aoana/ball-sim-go/pkg/mathutil"
+	"github.com/Aoana/go-ball-sim/assets/images"
+	"github.com/Aoana/go-ball-sim/internal/pkg/ball"
+	"github.com/Aoana/go-ball-sim/pkg/gfxutil"
+	"github.com/Aoana/go-ball-sim/pkg/mathutil"
 	"github.com/hajimehoshi/ebiten"
 )
 

@@ -1,4 +1,4 @@
-module github.com/Aoana/ball-sim-go
+module github.com/Aoana/go-ball-sim
 
 go 1.13
 

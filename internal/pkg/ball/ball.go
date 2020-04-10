@@ -2,8 +2,8 @@ package ball
 
 import (
 	"errors"
-	"github.com/Aoana/ball-sim-go/pkg/gfxutil"
-	"github.com/Aoana/ball-sim-go/pkg/objects"
+	"github.com/Aoana/go-ball-sim/pkg/gfxutil"
+	"github.com/Aoana/go-ball-sim/pkg/objects"
 	"github.com/atedja/go-vector"
 	"github.com/hajimehoshi/ebiten"
 )

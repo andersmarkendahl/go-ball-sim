@@ -2,7 +2,7 @@
 ##
 ## bsg.sh --
 ##
-##	Script for the ball-sim-go program collection.
+##	Script for the go-ball-sim program collection.
 ##
 ##	Preparation;
 ##
@@ -34,7 +34,7 @@ test -n "$1" || help
 echo "$1" | grep -qi "^help\|-h" && help
 
 ##	build [--clean] [--tdir=<directory>]
-##		Compiles ball-sim-go programs
+##		Compiles go-ball-sim programs
 ##
 cmd_build() {
 
@@ -54,7 +54,7 @@ cmd_build() {
 }
 
 ##	install
-##		Installs ball-sim-go programs
+##		Installs go-ball-sim programs
 ##
 cmd_install() {
 
@@ -66,7 +66,7 @@ cmd_install() {
 }
 
 ##	test
-##		Unit test the ball-sim-go programs
+##		Unit test the go-ball-sim programs
 ##
 cmd_test() {
 

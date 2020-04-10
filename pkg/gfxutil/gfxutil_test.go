@@ -1,7 +1,7 @@
 package gfxutil
 
 import (
-	"github.com/Aoana/ball-sim-go/pkg/gfxutil/testdata"
+	"github.com/Aoana/go-ball-sim/pkg/gfxutil/testdata"
 	"testing"
 )
 

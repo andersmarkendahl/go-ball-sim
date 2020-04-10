@@ -1,8 +1,8 @@
 package ball
 
 import (
-	"github.com/Aoana/ball-sim-go/assets/images"
-	"github.com/Aoana/ball-sim-go/pkg/gfxutil"
+	"github.com/Aoana/go-ball-sim/assets/images"
+	"github.com/Aoana/go-ball-sim/pkg/gfxutil"
 	"github.com/hajimehoshi/ebiten"
 	"math"
 	"testing"

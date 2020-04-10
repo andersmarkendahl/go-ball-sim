@@ -2,8 +2,8 @@ package main
 
 import (
 	"flag"
-	"github.com/Aoana/ball-sim-go/internal/pkg/ball"
-	"github.com/Aoana/ball-sim-go/internal/pkg/bounce"
+	"github.com/Aoana/go-ball-sim/internal/pkg/ball"
+	"github.com/Aoana/go-ball-sim/internal/pkg/bounce"
 	"github.com/hajimehoshi/ebiten"
 	"log"
 )
